@@ -8,16 +8,24 @@ declare const _default: {
                     dark: string;
                     card: string;
                 };
+                surface: {
+                    DEFAULT: string;
+                    elevated: string;
+                    muted: string;
+                };
                 accent: {
                     green: string;
                     glow: string;
                     dim: string;
                 };
                 ctf: {
-                    text: string;
-                    muted: string;
+                    surface: string;
                     border: string;
                     'border-active': string;
+                    glow: string;
+                    text: string;
+                    muted: string;
+                    accent: string;
                 };
             };
             fontFamily: {

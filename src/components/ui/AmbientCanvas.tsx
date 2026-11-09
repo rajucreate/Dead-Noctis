@@ -4,19 +4,35 @@ import { cn } from '@/utils/cn';
 
 interface AmbientCanvasProps {
   className?: string;
+  /**
+   * Pass `hasHandoffStarted` from useIntro() to gate the canvas until after
+   * the intro sequence has finished. Defaults to true (always on when standalone).
+   */
   enabled?: boolean;
-  cubeCount?: number;
+  /** Number of floating square pixel particles (clamped to 30-50 internally). */
+  particleCount?: number;
   speedMultiplier?: number;
+  scrollProgress?: number;
+  activeSection?: string;
 }
 
 export const AmbientCanvas: React.FC<AmbientCanvasProps> = ({
   className,
   enabled = true,
-  cubeCount = 34,
+  particleCount = 40,
   speedMultiplier = 1,
+  scrollProgress = 0,
+  activeSection = 'home',
 }) => {
   const canvasRef = useRef<HTMLCanvasElement | null>(null);
-  useAmbient({ canvasRef, enabled, cubeCount, speedMultiplier });
+  useAmbient({
+    canvasRef,
+    enabled,
+    particleCount,
+    speedMultiplier,
+    scrollProgress,
+    activeSection,
+  });
 
   return (
     <canvas

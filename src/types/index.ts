@@ -103,6 +103,8 @@ export interface SiteConfig {
   introTimings: IntroTimingConfig;
   assetPaths: {
     heroBackground: string;
+    aboutBackground?: string;
+    eventsBackground?: string;
     titleImage: string;
     portalLayer?: string;
     characterLayer?: string;

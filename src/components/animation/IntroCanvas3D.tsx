@@ -33,11 +33,13 @@ export const IntroCanvas3D: React.FC<IntroCanvas3DProps> = ({
 }) => {
   const containerRef = useRef<HTMLDivElement | null>(null);
   const canvasRef = useRef<HTMLCanvasElement | null>(null);
+  const onCompleteRef = useRef(onComplete);
+  onCompleteRef.current = onComplete;
   const prefersReduced = usePrefersReducedMotion();
 
   useEffect(() => {
     if (prefersReduced) {
-      onComplete();
+      onCompleteRef.current();
       return;
     }
 
@@ -493,13 +495,13 @@ export const IntroCanvas3D: React.FC<IntroCanvas3DProps> = ({
     let animId: number;
     let completed = false;
 
-    // Hard fallback safety timer at 3.40s (guaranteed under 4.0s total wall clock)
+    // Hard fallback safety timer at 3.20s (guaranteed under 4.0s total wall clock)
     const hardTimer = setTimeout(() => {
       if (!completed) {
         completed = true;
-        onComplete();
+        onCompleteRef.current();
       }
-    }, 3400);
+    }, 3200);
 
     const handleResize = () => {
       if (!container || !renderer) return;
@@ -695,21 +697,26 @@ export const IntroCanvas3D: React.FC<IntroCanvas3DProps> = ({
         sweepLight.intensity = 0;
       }
 
-      // --- PHASE 4: 1.90s - 2.40s (FINAL 3D HERO MOMENT: Settled, Clean, Pure White Title) ---
-      else if (elapsed <= 2.40) {
-        const p4 = (elapsed - 1.90) / 0.5;
-
-        // Subtle forward camera dolly
-        camera.position.z = 26.5 - p4 * 1.5;
+      // --- PHASE 4: 1.90s - 2.15s (BRIEF STABILIZATION IN PURE WHITE) ---
+      else if (elapsed <= 2.15) {
+        // Camera stays strictly at settled distance (NO camera zoom or dolly)
+        camera.position.z = 26.5;
+        camera.position.x = 0;
+        camera.position.y = 0;
 
         // All text at full opacity
         gdgMat.opacity = 1;
         gdgMesh.position.y = 5.7;
+        gdgMesh.position.x = 0;
         presentsMat.opacity = 1;
         presentsMesh.position.y = 4.3;
+        presentsMesh.position.x = 0;
         theMat.opacity = 1;
         theMesh.position.y = 2.7;
+        theMesh.position.x = 0;
         ctfMat.opacity = 1;
+        ctfMesh.position.y = -3.2;
+        ctfMesh.position.x = 0;
 
         // Ensure title is completely settled, clean, stable pure white (#FFFFFF)
         title3DGroup.position.set(0, 0, 0);
@@ -729,61 +736,69 @@ export const IntroCanvas3D: React.FC<IntroCanvas3DProps> = ({
             (ext.material as THREE.MeshStandardMaterial).opacity = 0.85;
           });
         });
-        title3DGroup.rotation.set(0, 0, 0);
-        title3DGroup.position.set(0, 0, 0);
 
-        // Emerald Lighting Energy Sweep across 3D Lettering during settled hero moment (1.90s -> 2.20s)
-        if (elapsed >= 1.90 && elapsed <= 2.20) {
-          const sweepProg = (elapsed - 1.90) / 0.30;
-          sweepLight.intensity = Math.sin(sweepProg * Math.PI) * 3.5;
-          sweepLight.position.x = -22 + sweepProg * 44; // Left to right across title
-        } else {
-          sweepLight.intensity = 0;
-        }
+        // Emerald Lighting Energy Sweep across 3D Lettering during settled moment (1.90s -> 2.15s)
+        const sweepProg = (elapsed - 1.90) / 0.25;
+        sweepLight.intensity = Math.sin(sweepProg * Math.PI) * 3.5;
+        sweepLight.position.x = -22 + sweepProg * 44; // Left to right across title
+
+        const overlay = container.parentElement || container;
+        overlay.style.opacity = '1';
+        container.style.opacity = '1';
       }
 
-      // --- PHASE 5: 2.40s - 2.85s (CINEMATIC DISSOLVE TO EXISTING LANDING PAGE) ---
-      else if (elapsed <= 2.85) {
-        const p5 = (elapsed - 2.40) / 0.45;
+      // --- PHASE 5: 2.15s - 2.70s (RESTORED PREVIOUS FADE-OUT TIMING: 550ms) ---
+      else if (elapsed <= 2.70) {
+        const FADE_OUT_START = 2.15;
+        const FADE_OUT_DURATION = 0.55; // 550ms (restored previous speed and overall timing)
+        const fadeProg = Math.min(1, Math.max(0, (elapsed - FADE_OUT_START) / FADE_OUT_DURATION));
 
-        // Camera accelerates forward through the title
-        camera.position.z = 25 - p5 * 18;
+        // Smooth continuous cosine ease-in-out curve (1.0 -> 0.0)
+        // Keeps fade clearly perceptible throughout without premature drop-off
+        const smoothFade = 0.5 + 0.5 * Math.cos(fadeProg * Math.PI);
 
-        // Fade out whole 3D scene smoothly to reveal landing page underneath
-        const fadeOut = Math.max(0, 1 - p5 * 1.6);
-        gdgMat.opacity = fadeOut;
-        presentsMat.opacity = fadeOut;
-        theMat.opacity = fadeOut;
-        ctfMat.opacity = fadeOut;
-        cubeMat.opacity = fadeOut;
+        // STRICT REQUIREMENTS:
+        // - NO camera zoom or rush: camera stays strictly at settled distance
+        camera.position.z = 26.5;
+        camera.position.x = 0;
+        camera.position.y = 0;
 
+        // - NO title zoom, scale increase, or pop-out: title stays strictly steady
+        title3DGroup.position.set(0, 0, 0);
+        title3DGroup.rotation.set(0, 0, 0);
+
+        // - NO distortion, slices stay aligned
         slices.forEach((slice) => {
-          (slice.frontMesh.material as THREE.MeshStandardMaterial).opacity = fadeOut;
+          slice.frontMesh.position.x = 0;
           slice.extrusions.forEach((ext) => {
-            (ext.material as THREE.MeshStandardMaterial).opacity = fadeOut * 0.85;
+            ext.position.x = 0;
           });
         });
 
-        if (container) {
-          container.style.opacity = String(fadeOut);
-        }
+        // Turn off sweep light
+        sweepLight.intensity = 0;
+
+        // Fade out the entire intro composition smoothly (title, particles, background, overlay)
+        // Set opacity strictly on the overlay root element without compounding/squaring
+        const overlay = container.parentElement || container;
+        overlay.style.opacity = String(smoothFade);
+        container.style.opacity = '1';
       }
 
-      // --- COMPLETION: At 2.85s, hand off to landing page ---
+      // --- COMPLETION: At 2.70s, hand off cleanly to landing page ---
       else {
         if (!completed) {
           completed = true;
           clearTimeout(hardTimer);
-          onComplete();
+          onCompleteRef.current();
         }
         return;
       }
 
       // =====================================================================
-      // 3D PARTICLE UPDATE LOOP (Genuine Spatial Movement across Depths)
+      // 3D PARTICLE UPDATE LOOP (Genuine Continuous Spatial Movement)
       // =====================================================================
       const isConverging = elapsed >= 0.45 && elapsed <= 0.85;
-      const isDispersing = elapsed >= 2.40;
 
       for (let i = 0; i < PARTICLE_COUNT; i++) {
         const p = particles[i];
@@ -793,12 +808,8 @@ export const IntroCanvas3D: React.FC<IntroCanvas3DProps> = ({
           const targetX = Math.sign(p.originPos.x || 1) * (14 + Math.abs(p.originPos.x) * 0.15);
           p.pos.x += (targetX - p.pos.x) * 0.045;
           p.pos.y += (0 - p.pos.y) * 0.04;
-        } else if (isDispersing) {
-          // Breakout dispersion during final transition
-          p.pos.x += Math.sign(p.pos.x || 1) * 0.85;
-          p.pos.y += Math.sign(p.pos.y || 1) * 0.65;
         } else {
-          // Natural forward travel toward and past camera
+          // Natural forward travel toward and past camera (NO dispersion, continuous movement)
           p.pos.z += p.velocity.z;
 
           // Wrap back to distant Z when passing camera
@@ -839,6 +850,9 @@ export const IntroCanvas3D: React.FC<IntroCanvas3DProps> = ({
       window.removeEventListener('resize', handleResize);
 
       try {
+        const overlay = container?.parentElement;
+        if (overlay) overlay.style.opacity = '';
+        if (container) container.style.opacity = '';
         cubeGeo.dispose();
         cubeMat.dispose();
         instancedCubes.dispose();
@@ -858,7 +872,7 @@ export const IntroCanvas3D: React.FC<IntroCanvas3DProps> = ({
         // Safe disposal
       }
     };
-  }, [onComplete, prefersReduced]);
+  }, [prefersReduced]);
 
   return (
     <div
@@ -869,7 +883,7 @@ export const IntroCanvas3D: React.FC<IntroCanvas3DProps> = ({
         inset: 0,
         zIndex: 100,
         backgroundColor: '#000000',
-        transition: 'opacity 0.35s ease-out',
+        overflow: 'hidden',
       }}
     >
       <canvas

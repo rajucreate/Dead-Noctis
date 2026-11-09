@@ -50,6 +50,43 @@ body {
   );
 }
 
+/* Minecraft-inspired stepped / pixel-notch corners */
+.pixel-notch {
+  clip-path: polygon(
+    0 4px,
+    4px 4px,
+    4px 0,
+    calc(100% - 4px) 0,
+    calc(100% - 4px) 4px,
+    100% 4px,
+    100% calc(100% - 4px),
+    calc(100% - 4px) calc(100% - 4px),
+    calc(100% - 4px) 100%,
+    4px 100%,
+    4px calc(100% - 4px),
+    0 calc(100% - 4px)
+  );
+}
+
+/* PageShell route enter fade-in */
+@keyframes page-enter-fade {
+  from {
+    opacity: 0;
+  }
+  to {
+    opacity: 1;
+  }
+}
+
+.page-shell-enter {
+  animation: page-enter-fade 0.3s ease-out forwards;
+}
+
+/* Film-grain texture (procedural SVG noise) */
+.page-shell-grain {
+  background-image: url("data:image/svg+xml,%3Csvg viewBox='0 0 200 200' xmlns='http://www.w3.org/2000/svg'%3E%3Cfilter id='noiseFilter'%3E%3CfeTurbulence type='fractalNoise' baseFrequency='0.8' numOctaves='3' stitchTiles='stitch'/%3E%3C/filter%3E%3Crect width='100%25' height='100%25' filter='url(%23noiseFilter)'/%3E%3C/svg%3E");
+}
+
 /* --- IMAGE GLITCH SLICE SYSTEM (7 horizontal slices) --- */
 
 .slice-0 { clip-path: inset(0% 0% 85% 0%); }
@@ -125,6 +162,425 @@ body {
   pointer-events: none;
 }
 
+/* ─────────────────────────────────────────────────────────────────────────────
+   AMBIENT LOOP ANIMATIONS
+   All ambient animations are gated on `.ambient-active` being present on
+   <body>. That class is added by App.tsx as soon as `hasHandoffStarted` is
+   true, so nothing plays during the intro sequence.
+   ─────────────────────────────────────────────────────────────────────────── */
+
+/* Volumetric Portal Glow Animations
+   Requirement: glow breathes between ~0.7 and 1.0 opacity over 4-5s. */
+@keyframes portal-core-pulse {
+  0%, 100% {
+    opacity: 0.70;
+    transform: scale(0.98);
+  }
+  50% {
+    opacity: 1.0;
+    transform: scale(1.02);
+  }
+}
+
+@keyframes portal-haze-pulse {
+  0%, 100% {
+    opacity: 0.38;
+    transform: scale(0.98);
+  }
+  50% {
+    opacity: 0.68;
+    transform: scale(1.02);
+  }
+}
+
+@keyframes portal-stair-spill {
+  0%, 100% { opacity: 0.45; }
+  50%       { opacity: 0.75; }
+}
+
+/* Only animate once the intro has handed off */
+.ambient-active .portal-pulse-core {
+  animation: portal-core-pulse 4.5s ease-in-out infinite;
+}
+
+.ambient-active .portal-pulse-haze {
+  animation: portal-haze-pulse 6s ease-in-out infinite;
+}
+
+.ambient-active .portal-pulse-stairs {
+  animation: portal-stair-spill 5s ease-in-out infinite;
+}
+
+/* Fallback for standalone usage (no .ambient-active parent) */
+.portal-pulse-core:not(.ambient-active *) {
+  animation: portal-core-pulse 4.5s ease-in-out infinite;
+}
+.portal-pulse-haze:not(.ambient-active *) {
+  animation: portal-haze-pulse 6s ease-in-out infinite;
+}
+.portal-pulse-stairs:not(.ambient-active *) {
+  animation: portal-stair-spill 5s ease-in-out infinite;
+}
+
+/* Ambient Atmospheric Fog Drift (Frame 09.B)
+   Requirement: seamless horizontal drift, 60-90s loop. */
+@keyframes ambient-fog-drift {
+  0%   { transform: translate3d(0, 0, 0); }
+  33%  { transform: translate3d(-28px, 8px, 0); }
+  66%  { transform: translate3d(14px, -5px, 0); }
+  100% { transform: translate3d(0, 0, 0); }
+}
+
+.ambient-active .ambient-fog {
+  animation: ambient-fog-drift 75s ease-in-out infinite;
+}
+
+/* Fallback */
+.ambient-fog:not(.ambient-active *) {
+  animation: ambient-fog-drift 75s ease-in-out infinite;
+}
+
+/* ─────────────────────────────────────────────────────────────────────────────
+   3D HERO VOXEL & LIGHTING ENHANCEMENTS (STEP 3)
+   ─────────────────────────────────────────────────────────────────────────── */
+
+/* 1. Real CSS 3D Voxel Cube Tumble & Bob */
+@keyframes voxel-cube-tumble {
+  0% {
+    transform: rotateX(0deg) rotateY(0deg) rotateZ(0deg);
+  }
+  50% {
+    transform: rotateX(180deg) rotateY(270deg) rotateZ(90deg);
+  }
+  100% {
+    transform: rotateX(360deg) rotateY(360deg) rotateZ(180deg);
+  }
+}
+
+@keyframes voxel-cube-bob {
+  0%, 100% {
+    transform: translateY(0px);
+  }
+  50% {
+    transform: translateY(-10px);
+  }
+}
+
+.voxel-cube-tumble {
+  animation-name: voxel-cube-tumble;
+  animation-timing-function: linear;
+  animation-iteration-count: infinite;
+}
+
+.voxel-cube-bob {
+  animation-name: voxel-cube-bob;
+  animation-timing-function: ease-in-out;
+  animation-iteration-count: infinite;
+}
+
+/* 2. Volumetric Portal Light Rays */
+@keyframes volumetric-ray-sway {
+  0%, 100% {
+    opacity: 0.35;
+    transform: rotate(0deg) scaleY(1);
+  }
+  50% {
+    opacity: 0.70;
+    transform: rotate(3deg) scaleY(1.08);
+  }
+}
+
+.portal-volumetric-ray-1 {
+  animation: volumetric-ray-sway 5.2s ease-in-out infinite;
+}
+
+.portal-volumetric-ray-2 {
+  animation: volumetric-ray-sway 6.8s ease-in-out infinite -2.4s;
+}
+
+.portal-volumetric-ray-3 {
+  animation: volumetric-ray-sway 4.7s ease-in-out infinite -1.1s;
+}
+
+/* 3. Voxel Text Extrusion (stacked hard-edged shadows) */
+.voxel-title-extrusion {
+  text-shadow:
+    1px 1px 0 #11663a,
+    2px 2px 0 #0d4a2b,
+    3px 3px 0 #0a3821,
+    4px 4px 0 #072917,
+    5px 5px 0 #041a0e,
+    6px 6px 0 #020d07,
+    0 8px 24px rgba(0, 0, 0, 0.95);
+}
+
+/* 4. Minecraft-style Bevel Buttons */
+.btn-minecraft-bevel {
+  border-top-color: rgba(72, 255, 159, 0.95);
+  border-left-color: rgba(52, 235, 139, 0.85);
+  border-right-color: rgba(13, 74, 43, 0.95);
+  border-bottom-color: rgba(6, 40, 22, 0.98);
+}
+
+.btn-minecraft-bevel-secondary {
+  border-top-color: rgba(143, 168, 154, 0.8);
+  border-left-color: rgba(100, 130, 115, 0.7);
+  border-right-color: rgba(20, 35, 27, 0.9);
+  border-bottom-color: rgba(10, 20, 15, 0.95);
+}
+
+/* ─────────────────────────────────────────────────────────────────────────────
+   TELEMETRY POD & RADAR HUD ANIMATIONS (EVENTS SECTION)
+   ─────────────────────────────────────────────────────────────────────────── */
+
+/* Sonar shockwave ping ripple */
+@keyframes sonar-ping-wave {
+  0% {
+    transform: scale(0.35);
+    opacity: 0.9;
+    border-width: 2px;
+  }
+  60% {
+    opacity: 0.4;
+  }
+  100% {
+    transform: scale(1.65);
+    opacity: 0;
+    border-width: 0.5px;
+  }
+}
+
+.animate-sonar-ping {
+  animation: sonar-ping-wave 2.6s cubic-bezier(0.1, 0.4, 0.2, 1) infinite;
+}
+
+.animate-sonar-ping-delayed {
+  animation: sonar-ping-wave 2.6s cubic-bezier(0.1, 0.4, 0.2, 1) infinite 1.3s;
+}
+
+/* Floating bob for holographic icon */
+@keyframes holo-float {
+  0%, 100% {
+    transform: translateY(0px) rotate(0deg);
+  }
+  50% {
+    transform: translateY(-5px) rotate(0.8deg);
+  }
+}
+
+.animate-holo-float {
+  animation: holo-float 3.2s ease-in-out infinite;
+}
+
+/* Horizontal scanline laser beam descending through pod */
+@keyframes pod-scanline {
+  0% {
+    top: -5%;
+    opacity: 0;
+  }
+  15% {
+    opacity: 0.9;
+  }
+  85% {
+    opacity: 0.9;
+  }
+  100% {
+    top: 105%;
+    opacity: 0;
+  }
+}
+
+.animate-pod-scanline {
+  animation: pod-scanline 3s cubic-bezier(0.4, 0, 0.2, 1) infinite;
+}
+
+/* Equalizer frequency bars bouncing */
+@keyframes eq-bounce-1 {
+  0%, 100% { height: 25%; }
+  50% { height: 95%; }
+}
+@keyframes eq-bounce-2 {
+  0%, 100% { height: 75%; }
+  50% { height: 35%; }
+}
+@keyframes eq-bounce-3 {
+  0%, 100% { height: 45%; }
+  50% { height: 100%; }
+}
+@keyframes eq-bounce-4 {
+  0%, 100% { height: 85%; }
+  50% { height: 20%; }
+}
+@keyframes eq-bounce-5 {
+  0%, 100% { height: 30%; }
+  50% { height: 80%; }
+}
+
+.animate-eq-1 { animation: eq-bounce-1 0.75s ease-in-out infinite; }
+.animate-eq-2 { animation: eq-bounce-2 0.65s ease-in-out infinite 0.15s; }
+.animate-eq-3 { animation: eq-bounce-3 0.85s ease-in-out infinite 0.3s; }
+.animate-eq-4 { animation: eq-bounce-4 0.7s ease-in-out infinite 0.1s; }
+.animate-eq-5 { animation: eq-bounce-5 0.9s ease-in-out infinite 0.25s; }
+
+/* Micro glitch / telemetry jitter */
+@keyframes holo-glitch-flicker {
+  0%, 100% { opacity: 1; filter: drop-shadow(0 0 10px rgba(34, 255, 136, 0.6)); }
+  92% { opacity: 1; transform: translate(0, 0); }
+  93% { opacity: 0.82; transform: translate(-1.5px, 1px); }
+  94% { opacity: 1; transform: translate(1.5px, -0.5px); }
+  95% { opacity: 0.9; transform: translate(0, 0); }
+}
+
+.animate-holo-glitch {
+  animation: holo-glitch-flicker 5.5s ease-in-out infinite;
+}
+
+/* Electric border tracer animation */
+@keyframes border-tracer {
+  0% {
+    background-position: 0% 0%;
+  }
+  100% {
+    background-position: 200% 0%;
+  }
+}
+
+.animate-border-tracer {
+  background-size: 200% 100%;
+  animation: border-tracer 2.8s linear infinite;
+}
+
+/* Traveling Emerald Border Ray (Perimeter Light Beam) */
+@keyframes border-beam-travel {
+  0% {
+    transform: rotate(0deg);
+  }
+  100% {
+    transform: rotate(360deg);
+  }
+}
+
+.animate-border-ray {
+  animation: border-beam-travel 4.5s linear infinite;
+}
+
+/* Vertical Laser Security Scanner sweeping horizontally across protocol slabs */
+@keyframes laser-scanner-sweep {
+  0% {
+    left: -10%;
+    opacity: 0;
+  }
+  15% {
+    opacity: 0.9;
+  }
+  85% {
+    opacity: 0.9;
+  }
+  100% {
+    left: 110%;
+    opacity: 0;
+  }
+}
+
+.animate-laser-scanner {
+  animation: laser-scanner-sweep 2.6s cubic-bezier(0.4, 0, 0.2, 1) infinite;
+}
+
+/* Hexagonal shield pulse */
+@keyframes hex-shield-pulse {
+  0%, 100% {
+    transform: scale(1);
+    opacity: 0.45;
+  }
+  50% {
+    transform: scale(1.12);
+    opacity: 0.85;
+    filter: drop-shadow(0 0 10px rgba(34, 255, 136, 0.6));
+  }
+}
+
+.animate-hex-shield {
+  animation: hex-shield-pulse 3.2s ease-in-out infinite;
+}
+
+/* Subtle Occasional Emerald Light Shimmer across DEAD NOCTIS title */
+@keyframes title-shimmer-sweep {
+  0%, 75% {
+    transform: translate3d(-100%, -100%, 0) rotate(15deg);
+    opacity: 0;
+  }
+  80% {
+    opacity: 0.85;
+  }
+  95% {
+    transform: translate3d(100%, 100%, 0) rotate(15deg);
+    opacity: 0.85;
+  }
+  100% {
+    transform: translate3d(100%, 100%, 0) rotate(15deg);
+    opacity: 0;
+  }
+}
+
+.title-shimmer-beam {
+  background: linear-gradient(
+    115deg,
+    transparent 35%,
+    rgba(34, 255, 136, 0.15) 45%,
+    rgba(138, 255, 193, 0.45) 50%,
+    rgba(34, 255, 136, 0.15) 55%,
+    transparent 65%
+  );
+  animation: title-shimmer-sweep 7.5s cubic-bezier(0.4, 0, 0.2, 1) infinite;
+}
+
+/* Button Emerald Light Sweep */
+@keyframes button-sweep-anim {
+  0% {
+    transform: translateX(-100%);
+  }
+  100% {
+    transform: translateX(100%);
+  }
+}
+
+.animate-button-sweep {
+  animation: button-sweep-anim 0.85s cubic-bezier(0.4, 0, 0.2, 1) infinite;
+}
+
+/* About Section: Occasional Gentle Light Sweep for Intelligence Briefing Terminal */
+@keyframes intel-sweep-anim {
+  0%, 72% {
+    transform: translate3d(-100%, -100%, 0) rotate(20deg);
+    opacity: 0;
+  }
+  76% {
+    opacity: 0.55;
+  }
+  88% {
+    transform: translate3d(100%, 100%, 0) rotate(20deg);
+    opacity: 0.55;
+  }
+  92%, 100% {
+    transform: translate3d(100%, 100%, 0) rotate(20deg);
+    opacity: 0;
+  }
+}
+
+.animate-intel-sweep {
+  animation: intel-sweep-anim 9s cubic-bezier(0.4, 0, 0.2, 1) infinite;
+}
+
+/* GPU Performance & Off-Screen Section Optimization */
+#about,
+#events,
+#rules,
+#faq,
+#register {
+  content-visibility: auto;
+  contain-intrinsic-size: 1px 800px;
+}
+
 /* Reduced Motion Override */
 @media (prefers-reduced-motion: reduce) {
   *,
@@ -137,7 +593,32 @@ body {
   }
   .title-slice,
   .title-rgb-green,
-  .title-rgb-cyan {
+  .title-rgb-cyan,
+  .portal-pulse-core,
+  .portal-pulse-haze,
+  .portal-pulse-stairs,
+  .ambient-fog,
+  .ambient-active .portal-pulse-core,
+  .ambient-active .portal-pulse-haze,
+  .ambient-active .portal-pulse-stairs,
+  .ambient-active .ambient-fog,
+  .animate-sonar-ping,
+  .animate-sonar-ping-delayed,
+  .animate-holo-float,
+  .animate-pod-scanline,
+  .animate-eq-1,
+  .animate-eq-2,
+  .animate-eq-3,
+  .animate-eq-4,
+  .animate-eq-5,
+  .animate-holo-glitch,
+  .animate-border-tracer,
+  .animate-border-ray,
+  .animate-laser-scanner,
+  .animate-hex-shield,
+  .animate-intel-sweep,
+  .title-shimmer-beam,
+  .animate-button-sweep {
     animation: none !important;
     transform: none !important;
     opacity: 0 !important;

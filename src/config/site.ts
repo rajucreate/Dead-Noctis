@@ -108,6 +108,8 @@ export const siteConfig: SiteConfig = {
 
   assetPaths: {
     heroBackground: '/src/assets/images/hero/hero-concept.jpg',
+    aboutBackground: '/src/assets/images/sections/about-background.jpg',
+    eventsBackground: '/src/assets/images/sections/events-background.jpg',
     titleImage: '/src/assets/images/hero/title.png',
     portalLayer: undefined,
     characterLayer: undefined,

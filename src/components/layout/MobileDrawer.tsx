@@ -1,5 +1,7 @@
 import { useEffect, useRef } from 'react';
-import { siteConfig } from '@/config/site';
+import { createPortal } from 'react-dom';
+import { Link, useNavigate } from 'react-router-dom';
+import { navigation } from '@/content/siteContent';
 import { Button } from '@/components/ui/Button';
 import { cn } from '@/utils/cn';
 
@@ -7,15 +9,18 @@ interface MobileDrawerProps {
   isOpen: boolean;
   onClose: () => void;
   activeId: string;
+  onRegisterClick?: () => void;
 }
 
 export const MobileDrawer: React.FC<MobileDrawerProps> = ({
   isOpen,
   onClose,
   activeId,
+  onRegisterClick,
 }) => {
   const closeBtnRef = useRef<HTMLButtonElement | null>(null);
   const drawerRef = useRef<HTMLDivElement | null>(null);
+  const navigate = useNavigate();
 
   // Focus trap / move focus to close button when drawer opens, and handle ESC key
   useEffect(() => {
@@ -46,18 +51,27 @@ export const MobileDrawer: React.FC<MobileDrawerProps> = ({
     };
   }, [isOpen, onClose]);
 
-  if (!isOpen) return null;
+  const handleRegisterClick = () => {
+    onClose();
+    if (onRegisterClick) {
+      onRegisterClick();
+    } else {
+      navigate('/register');
+    }
+  };
 
-  return (
+  if (!isOpen || typeof document === 'undefined') return null;
+
+  return createPortal(
     <div
-      className="fixed inset-0 z-50 md:hidden"
+      className="fixed inset-0 z-[120] md:hidden"
       role="dialog"
       aria-modal="true"
       aria-label="Mobile Navigation Drawer"
     >
       {/* Dimmed backdrop - click to close */}
       <div
-        className="fixed inset-0 bg-black/80 backdrop-blur-sm transition-opacity cursor-pointer"
+        className="fixed inset-0 bg-black/85 backdrop-blur-md transition-opacity cursor-pointer"
         onClick={onClose}
         aria-hidden="true"
       />
@@ -65,7 +79,7 @@ export const MobileDrawer: React.FC<MobileDrawerProps> = ({
       {/* Drawer Panel */}
       <div
         ref={drawerRef}
-        className="fixed inset-y-0 right-0 w-3/4 max-w-xs bg-background-dark/95 border-l border-ctf-border/60 p-6 flex flex-col justify-between shadow-2xl z-10"
+        className="fixed inset-y-0 right-0 w-[82%] max-w-xs bg-[#050a07] border-l border-accent-green/30 p-6 flex flex-col justify-between shadow-[0_0_60px_rgba(0,0,0,0.95)] z-10"
       >
         <div>
           {/* Header with Close ✕ Button */}
@@ -77,7 +91,7 @@ export const MobileDrawer: React.FC<MobileDrawerProps> = ({
               ref={closeBtnRef}
               type="button"
               onClick={onClose}
-              className="w-11 h-11 flex items-center justify-center text-ctf-muted hover:text-accent-green focus:outline-none focus:ring-1 focus:ring-accent-green rounded transition-colors"
+              className="w-11 h-11 flex items-center justify-center text-ctf-muted hover:text-accent-green focus:outline-none focus:ring-1 focus:ring-accent-green rounded transition-colors cursor-pointer"
               aria-label="Close menu"
             >
               <svg
@@ -95,21 +109,25 @@ export const MobileDrawer: React.FC<MobileDrawerProps> = ({
 
           {/* Nav Items List */}
           <nav className="mt-8 flex flex-col gap-6" aria-label="Mobile Navigation Links">
-            {siteConfig.navigation
-              .filter((item) => !item.isCta)
+            {navigation
+              .filter((item) => !('isCta' in item && item.isCta))
               .map((item) => {
-                const isActive = item.id === activeId;
+                const isActive = activeId === item.path || activeId === item.id;
                 return (
-                  <a
+                  <Link
                     key={item.id}
-                    href={item.href}
-                    onClick={(e) => {
-                      e.preventDefault();
+                    to={item.path}
+                    onClick={() => {
                       onClose();
-                      // TODO: Connect router when pages added
+                      if (window.location.pathname === '/' && item.id !== 'register') {
+                        const el = document.getElementById(item.id);
+                        if (el) {
+                          el.scrollIntoView({ behavior: 'smooth' });
+                        }
+                      }
                     }}
                     className={cn(
-                      'text-base uppercase font-semibold tracking-cyber transition-colors flex items-center justify-between py-1',
+                      'text-base uppercase font-semibold tracking-cyber transition-colors flex items-center justify-between py-1 cursor-pointer',
                       isActive
                         ? 'text-accent-green'
                         : 'text-ctf-text hover:text-accent-green'
@@ -119,7 +137,7 @@ export const MobileDrawer: React.FC<MobileDrawerProps> = ({
                     {isActive && (
                       <span className="h-1.5 w-1.5 rounded-full bg-accent-green shadow-neon-sm" />
                     )}
-                  </a>
+                  </Link>
                 );
               })}
           </nav>
@@ -130,15 +148,13 @@ export const MobileDrawer: React.FC<MobileDrawerProps> = ({
           <Button
             variant="primary"
             className="w-full justify-center"
-            onClick={() => {
-              onClose();
-              // TODO: Connect router when pages added (/register)
-            }}
+            onClick={handleRegisterClick}
           >
             REGISTER
           </Button>
         </div>
       </div>
-    </div>
+    </div>,
+    document.body
   );
 };

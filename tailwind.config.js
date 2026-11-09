@@ -8,16 +8,24 @@ export default {
                     dark: '#050a07',
                     card: 'rgba(5, 10, 7, 0.75)',
                 },
+                surface: {
+                    DEFAULT: '#050a07',
+                    elevated: 'rgba(5, 10, 7, 0.90)',
+                    muted: 'rgba(5, 10, 7, 0.75)',
+                },
                 accent: {
                     green: '#22ff88',
                     glow: '#00ff66',
                     dim: '#11663a',
                 },
                 ctf: {
-                    text: '#e8f5ee',
-                    muted: '#8fa89a',
+                    surface: '#050a07',
                     border: 'rgba(34, 255, 136, 0.25)',
                     'border-active': '#22ff88',
+                    glow: '#00ff66',
+                    text: '#e8f5ee',
+                    muted: '#8fa89a',
+                    accent: '#22ff88',
                 },
             },
             fontFamily: {

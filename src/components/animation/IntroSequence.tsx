@@ -1,6 +1,18 @@
-import { useEffect, useState } from 'react';
+import { createContext, useContext, useEffect, useState, useCallback } from 'react';
 import { usePrefersReducedMotion } from '@/hooks/usePrefersReducedMotion';
 import { IntroCanvas3D } from './IntroCanvas3D';
+
+export interface IntroContextType {
+  isIntroActive: boolean;
+  hasHandoffStarted: boolean;
+}
+
+export const IntroContext = createContext<IntroContextType>({
+  isIntroActive: false,
+  hasHandoffStarted: true,
+});
+
+export const useIntro = () => useContext(IntroContext);
 
 interface IntroSequenceProps {
   onIntroComplete?: () => void;
@@ -9,7 +21,7 @@ interface IntroSequenceProps {
 
 /**
  * Orchestrates the True 3D WebGL Cinematic Intro Sequence.
- * - Runs for maximum 4.0s (finishes naturally at ~3.80s).
+ * - Runs for maximum 4.0s (finishes naturally at ~2.70s).
  * - Automatically hands off and reveals the existing landing page.
  * - Provides immediate escape key skip.
  * - Respects prefers-reduced-motion.
@@ -20,11 +32,25 @@ export const IntroSequence: React.FC<IntroSequenceProps> = ({
 }) => {
   const prefersReduced = usePrefersReducedMotion();
   const [isIntroActive, setIsIntroActive] = useState(!prefersReduced);
+  const [hasHandoffStarted, setHasHandoffStarted] = useState(prefersReduced);
 
-  const handleComplete = () => {
+  useEffect(() => {
+    if (prefersReduced) {
+      setHasHandoffStarted(true);
+      return;
+    }
+    // Storyboard Frame 03-04: Handoff cascade begins at 2.30s as intro fade-out begins
+    const timer = setTimeout(() => {
+      setHasHandoffStarted(true);
+    }, 2300);
+    return () => clearTimeout(timer);
+  }, [prefersReduced]);
+
+  const handleComplete = useCallback(() => {
+    setHasHandoffStarted(true);
     setIsIntroActive(false);
     if (onIntroComplete) onIntroComplete();
-  };
+  }, [onIntroComplete]);
 
   // Keyboard shortcut: Press Escape to skip intro immediately
   useEffect(() => {
@@ -35,14 +61,14 @@ export const IntroSequence: React.FC<IntroSequenceProps> = ({
     };
     window.addEventListener('keydown', handleKeyDown);
     return () => window.removeEventListener('keydown', handleKeyDown);
-  }, [isIntroActive]);
+  }, [isIntroActive, handleComplete]);
 
   return (
-    <>
+    <IntroContext.Provider value={{ isIntroActive, hasHandoffStarted }}>
       {/* 3D WebGL Cinematic Intro Overlay */}
       {isIntroActive && (
         <div
-          className="fixed inset-0 z-[100] bg-[#000000] select-none overflow-hidden"
+          className="fixed inset-0 z-[100] select-none overflow-hidden"
           role="status"
           aria-live="polite"
         >
@@ -63,6 +89,6 @@ export const IntroSequence: React.FC<IntroSequenceProps> = ({
 
       {/* Main Landing Page Content (Preserved exactly as built) */}
       {children}
-    </>
+    </IntroContext.Provider>
   );
 };
