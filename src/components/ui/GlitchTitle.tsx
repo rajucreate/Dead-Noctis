@@ -3,6 +3,7 @@ import { siteConfig } from '@/config/site';
 import { brand } from '@/content/siteContent';
 import { usePrefersReducedMotion } from '@/hooks/usePrefersReducedMotion';
 import { cn } from '@/utils/cn';
+import deadNoctisTitleImg from '@/assets/images/hero/dead-noctis-only.png';
 
 export interface GlitchTitleHandle {
   container: HTMLDivElement | null;
@@ -29,7 +30,7 @@ export const GlitchTitle = forwardRef<GlitchTitleHandle, GlitchTitleProps>(
   (
     {
       className,
-      imageSrc = '/src/assets/images/hero/dead-noctis-only.png',
+      imageSrc = deadNoctisTitleImg,
       slicesCount = 7,
       autoGlitch = true,
     },

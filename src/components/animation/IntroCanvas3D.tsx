@@ -1,6 +1,7 @@
 import { useEffect, useRef } from 'react';
 import * as THREE from 'three';
 import { usePrefersReducedMotion } from '@/hooks/usePrefersReducedMotion';
+import deadNoctisTitleImg from '@/assets/images/hero/dead-noctis-only.png';
 
 interface IntroCanvas3DProps {
   onComplete: () => void;
@@ -10,7 +11,7 @@ interface IntroCanvas3DProps {
 // Preload the high-resolution stone texture immediately at module import to avoid any texture-load pop-in
 const preloadedStoneImg = typeof window !== 'undefined' ? new Image() : null;
 if (preloadedStoneImg) {
-  preloadedStoneImg.src = '/src/assets/images/hero/dead-noctis-only.png';
+  preloadedStoneImg.src = deadNoctisTitleImg;
 }
 
 /**
@@ -338,7 +339,7 @@ export const IntroCanvas3D: React.FC<IntroCanvas3DProps> = ({
     whiteStoneTex.magFilter = THREE.LinearFilter;
 
     const stoneImg = new Image();
-    stoneImg.src = '/src/assets/images/hero/dead-noctis-only.png';
+    stoneImg.src = deadNoctisTitleImg;
     const imgToUse = (preloadedStoneImg && preloadedStoneImg.complete) ? preloadedStoneImg : stoneImg;
     const processWhiteStone = (img: HTMLImageElement) => {
       if (!whiteStoneCtx) return;

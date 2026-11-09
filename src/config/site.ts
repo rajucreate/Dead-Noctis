@@ -1,4 +1,11 @@
 import { SiteConfig } from '@/types';
+import klUniversityLogo from '@/assets/images/logos/kl-university.png';
+import gdgLogo from '@/assets/images/logos/gdg.png';
+import whhLogo from '@/assets/images/logos/whh.png';
+import heroBackgroundImg from '@/assets/images/hero/hero-concept.jpg';
+import aboutBackgroundImg from '@/assets/images/sections/about-background.jpg';
+import eventsBackgroundImg from '@/assets/images/sections/events-background.jpg';
+import titleImageImg from '@/assets/images/hero/title.png';
 
 export const siteConfig: SiteConfig = {
   meta: {
@@ -18,13 +25,13 @@ export const siteConfig: SiteConfig = {
 
   logos: {
     klUniversity: {
-      src: '/src/assets/images/logos/kl-university.png',
+      src: klUniversityLogo,
       alt: 'KL University',
       width: 140,
       height: 40,
     },
     gdg: {
-      src: '/src/assets/images/logos/gdg.png',
+      src: gdgLogo,
       alt: 'Google Developer Groups',
       wordmark: 'Google Developer Groups',
       presentsText: 'PRESENTS',
@@ -32,7 +39,7 @@ export const siteConfig: SiteConfig = {
       height: 28,
     },
     whh: {
-      src: '/src/assets/images/logos/whh.png',
+      src: whhLogo,
       alt: 'White Hat Hackers',
       width: 40,
       height: 40,
@@ -107,10 +114,10 @@ export const siteConfig: SiteConfig = {
   },
 
   assetPaths: {
-    heroBackground: '/src/assets/images/hero/hero-concept.jpg',
-    aboutBackground: '/src/assets/images/sections/about-background.jpg',
-    eventsBackground: '/src/assets/images/sections/events-background.jpg',
-    titleImage: '/src/assets/images/hero/title.png',
+    heroBackground: heroBackgroundImg,
+    aboutBackground: aboutBackgroundImg,
+    eventsBackground: eventsBackgroundImg,
+    titleImage: titleImageImg,
     portalLayer: undefined,
     characterLayer: undefined,
     fogLayer: undefined,
