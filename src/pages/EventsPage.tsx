@@ -13,7 +13,7 @@ export const EventsPage: React.FC = () => {
   return (
     <div className="relative min-h-screen">
       {/* Persistent 3D World Scene focused on Floating Island Dimension */}
-      <ContinuousWorld scrollProgress={0.8} activeSection="events" />
+      <ContinuousWorld scrollProgress={0.48} activeSection="events" />
 
       <main id="main-content" className="relative z-10">
         <EventsSection />
