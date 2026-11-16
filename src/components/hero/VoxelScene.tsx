@@ -17,7 +17,6 @@ export const VoxelScene: React.FC<VoxelSceneProps> = ({ className }) => {
   const { hasHandoffStarted } = useIntro();
   const { containerScale } = PARALLAX_CONFIG;
 
-  const bgRef = React.useRef<HTMLDivElement | null>(null);
   const portalRef = React.useRef<HTMLDivElement | null>(null);
   const characterRef = React.useRef<HTMLDivElement | null>(null);
   const headerRef = React.useRef<HTMLElement | null>(null);
@@ -25,7 +24,6 @@ export const VoxelScene: React.FC<VoxelSceneProps> = ({ className }) => {
 
   useParallax(
     {
-      backgroundRef: bgRef as React.RefObject<HTMLElement | null>,
       portalRef: portalRef as React.RefObject<HTMLElement | null>,
       characterRef: characterRef as React.RefObject<HTMLElement | null>,
       headerRef,
@@ -42,9 +40,8 @@ export const VoxelScene: React.FC<VoxelSceneProps> = ({ className }) => {
       )}
       aria-hidden="true"
     >
-      {/* Layer 1: Background Plate – oversized so parallax travel never shows raw edges */}
+      {/* Layer 1: Background Plate – static 1:1 rendering without mouse movement */}
       <div
-        ref={bgRef}
         className="absolute bg-cover bg-[position:65%_center] md:bg-center will-change-transform"
         style={{
           inset: `-${Math.round((containerScale - 1) * 60 + 10)}px`,

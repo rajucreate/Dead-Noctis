@@ -13,7 +13,10 @@
 
 /* Dedicated Background Layers - Matches Source of Truth exactly */
 .hero-background,
-.about-background {
+.about-background,
+.events-background,
+.rules-background,
+.faq-background {
   position: absolute;
   inset: 0;
   width: 100%;

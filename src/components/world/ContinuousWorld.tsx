@@ -1,12 +1,13 @@
 import React from 'react';
 import { siteConfig } from '@/config/site';
-import { useParallax, HERO_3D_CONFIG } from '@/hooks/useParallax';
+import { HERO_3D_CONFIG } from '@/hooks/useParallax';
 import { AmbientCanvas } from '@/components/ui/AmbientCanvas';
 import { useIntro } from '@/components/animation/IntroSequence';
 import { cn } from '@/utils/cn';
 import aboutBgImg from '@/assets/images/sections/about-background.jpg';
 import eventsBgImg from '@/assets/images/sections/events-background.jpg';
 import rulesBgImg from '@/assets/images/sections/rules-background.jpg';
+import faqBgImg from '@/assets/images/sections/faq-background.jpg';
 
 interface ContinuousWorldProps {
   scrollProgress: number; // 0.0 to 1.0 (smoothly lerped)
@@ -34,51 +35,23 @@ export const ContinuousWorld: React.FC<ContinuousWorldProps> = ({
 }) => {
   const { hasHandoffStarted } = useIntro();
 
-  // ── 3D Scene Refs ─────────────────────────────────────────────────────────
-  const sceneContainerRef = React.useRef<HTMLDivElement | null>(null);
-  const bgParallaxRef = React.useRef<HTMLDivElement | null>(null);
-  const aboutBgParallaxRef = React.useRef<HTMLDivElement | null>(null);
-  const eventsBgParallaxRef = React.useRef<HTMLDivElement | null>(null);
-  const rulesBgParallaxRef = React.useRef<HTMLDivElement | null>(null);
-  const portalParallaxRef = React.useRef<HTMLDivElement | null>(null);
-  const characterParallaxRef = React.useRef<HTMLDivElement | null>(null);
-
-  // Wire up imperative 3D tilt & parallax (starts only after intro completes)
-  useParallax(
-    {
-      sceneContainerRef,
-      backgroundRef: bgParallaxRef,
-      aboutBackgroundRef: aboutBgParallaxRef,
-      eventsBackgroundRef: eventsBgParallaxRef,
-      rulesBackgroundRef: rulesBgParallaxRef,
-      characterRef: characterParallaxRef,
-      portalRef: portalParallaxRef,
-    },
-    hasHandoffStarted
-  );
-
-  // ── Cinematic Scroll Camera Transforms ──────────────────────────────────────
-  // Restrained, smooth dimensional dolly: avoids sudden camera shifts or excessive zoom
-  const cameraScale = 1.0 + Math.sin(scrollProgress * Math.PI) * 0.09;
-  const cameraTranslateX = -scrollProgress * 32;
-  const cameraTranslateY = -scrollProgress * 52;
-
   const isAboutActive = activeSection === 'about';
   const isEventsActive = activeSection === 'events';
   const isRulesActive = activeSection === 'rules';
+  const isFaqActive = activeSection === 'faq';
 
   // ── Smooth Scroll-Linked World Continuity ───────────────────────────────────
   // About cavern plate: fades in seamlessly over hero as user scrolls down from Home
   const aboutCavernOpacity = isAboutActive
     ? 1.0
-    : isEventsActive || isRulesActive
+    : isEventsActive || isRulesActive || isFaqActive
     ? 0
     : scrollProgress < 0.45
     ? Math.min(1, Math.max(0, (scrollProgress - 0.04) * 4.0))
     : Math.max(0, 1 - (scrollProgress - 0.45) * 4.0);
 
   // Hero obsidian portal plate: stays fully bright and cleanly dissolves into About Cavern (no dark dips)
-  const heroSceneOpacity = isAboutActive || isEventsActive || isRulesActive
+  const heroSceneOpacity = isAboutActive || isEventsActive || isRulesActive || isFaqActive
     ? 0
     : Math.max(0, 1 - aboutCavernOpacity);
   const heroPortalOpacity = 0;
@@ -88,24 +61,29 @@ export const ContinuousWorld: React.FC<ContinuousWorldProps> = ({
   // Events floating island plate: emerges during Events section (scroll 0.38 - 0.72)
   const eventsIslandOpacity = isEventsActive
     ? 1.0
-    : isAboutActive || isRulesActive
+    : isRulesActive || isFaqActive
     ? 0
     : scrollProgress < 0.68
     ? Math.min(1, Math.max(0, (scrollProgress - 0.38) * 3.5))
     : Math.max(0, 1 - (scrollProgress - 0.68) * 4.0);
 
-  // Rules security matrix plate: emerges during Rules section (scroll > 0.58)
+  // Rules security matrix plate: emerges during Rules section (scroll 0.58 - 0.85)
   const rulesSceneOpacity = isRulesActive
+    ? 1.0
+    : isAboutActive
+    ? 0
+    : scrollProgress < 0.82
+    ? Math.min(1, Math.max(0, (scrollProgress - 0.58) * 3.5))
+    : Math.max(0, 1 - (scrollProgress - 0.82) * 4.0);
+
+  // FAQ cyber archive plate: emerges seamlessly over Rules as user scrolls down into FAQ (scroll > 0.75)
+  const faqSceneOpacity = isFaqActive
     ? 1.0
     : isAboutActive || isEventsActive
     ? 0
-    : Math.min(1, Math.max(0, (scrollProgress - 0.58) * 3.5));
+    : Math.min(1, Math.max(0, (scrollProgress - 0.75) * 4.0));
 
-  const finalGatewayOpacity = Math.max(0, (scrollProgress - 0.85) * 4.0);
-  const interiorHazeOpacity = isAboutActive ? 0 : Math.min(1, Math.max(0, (scrollProgress - 0.48) * 2.5)) * (1 - finalGatewayOpacity);
-
-  const isRulesOrFaq = activeSection === 'rules' || activeSection === 'faq';
-  const { containerScale, perspective } = HERO_3D_CONFIG;
+  const { perspective } = HERO_3D_CONFIG;
 
   return (
     <div
@@ -116,13 +94,11 @@ export const ContinuousWorld: React.FC<ContinuousWorldProps> = ({
       style={{ perspective: `${perspective}px` }}
       aria-hidden="true"
     >
-      {/* 3D Scene Perspective Tilt Container */}
+      {/* 3D Scene Perspective Container */}
       <div
-        ref={sceneContainerRef}
-        className="absolute inset-0 will-change-transform"
+        className="absolute inset-0"
         style={{
           transformStyle: 'preserve-3d',
-          transition: 'transform 0.1s cubic-bezier(0.2, 0, 0.2, 1)',
         }}
       >
         {/* 1.1 Hero Background Plate (Obsidian Portal Scene) - Exact 1:1 Clean Rendering */}
@@ -159,71 +135,55 @@ export const ContinuousWorld: React.FC<ContinuousWorldProps> = ({
           />
         </div>
 
-        {/* 1.3 Events Floating Island Scene Plate (Storyboard 03. EVENTS / DETAILS) */}
+        {/* 1.3 Events Floating Island Scene Plate (Storyboard 03. EVENTS / DETAILS) - Exact 1:1 Clean Rendering */}
         <div
-          className="absolute will-change-transform transition-opacity duration-700 ease-out z-6"
+          className="absolute inset-0 will-change-transform transition-opacity duration-500 ease-out z-6"
           style={{
-            inset: `-${Math.round((containerScale - 1) * 70 + 20)}px`,
-            transform: `translate3d(${cameraTranslateX * 0.7}px, ${cameraTranslateY * 0.7}px, 0) scale(${cameraScale * containerScale})`,
-            transformOrigin: '75% 45%',
-            transformStyle: 'preserve-3d',
             opacity: eventsIslandOpacity,
             display: eventsIslandOpacity <= 0.001 ? 'none' : 'block',
           }}
         >
-          <div
-            ref={eventsBgParallaxRef}
-            className="absolute inset-0 bg-cover bg-[position:71.5%_31.5%] will-change-transform"
-            style={{
-              backgroundImage: `url(${eventsBgImg})`,
-              transform: `translate3d(0, 0, ${HERO_3D_CONFIG.layers.background.z}px)`,
-            }}
-          />
-
-          {/* Glowing Green Cubic Monolith atop the Floating Island - locked precisely to cube coordinates (71.5%, 31.5%) */}
-          <div
-            className="absolute w-[220px] md:w-[300px] h-[220px] md:h-[300px] rounded-full bg-accent-glow/40 blur-[60px] pointer-events-none portal-pulse-core"
-            style={{ left: '71.5%', top: '31.5%', transform: 'translate(-50%, -50%)' }}
-          />
-          <div
-            className="absolute w-[120px] md:w-[160px] h-[120px] md:h-[160px] rounded-full bg-accent-green/60 blur-[32px] pointer-events-none portal-pulse-haze"
-            style={{ left: '71.5%', top: '31.5%', transform: 'translate(-50%, -50%)' }}
-          />
-
-          {/* Dimensional Island Mist & Aura */}
-          <div
-            className="absolute w-[520px] md:w-[740px] h-[280px] rounded-full bg-accent-green/15 blur-[85px] pointer-events-none ambient-fog"
-            style={{ left: '71.5%', top: '50%', transform: 'translate(-50%, -50%)' }}
+          <img
+            src={eventsBgImg}
+            alt="The Dead Noctis Floating Island Dimension"
+            className="events-background absolute inset-0 w-full h-full object-cover object-center pointer-events-none select-none"
+            loading="eager"
+            decoding="async"
           />
         </div>
 
-        {/* 1.4 Rules Security Matrix Plate (Storyboard 04. RULES) */}
+        {/* 1.4 Rules Security Matrix Plate (Storyboard 04. RULES) - Exact 1:1 Clean Rendering */}
         <div
-          className="absolute will-change-transform transition-opacity duration-700 ease-out z-7"
+          className="absolute inset-0 will-change-transform transition-opacity duration-500 ease-out z-7"
           style={{
-            inset: `-${Math.round((containerScale - 1) * 70 + 20)}px`,
-            transform: `translate3d(${cameraTranslateX * 0.75}px, ${cameraTranslateY * 0.75}px, 0) scale(${cameraScale * containerScale})`,
-            transformOrigin: '75% 45%',
-            transformStyle: 'preserve-3d',
             opacity: rulesSceneOpacity,
             display: rulesSceneOpacity <= 0.001 ? 'none' : 'block',
           }}
         >
-          <div
-            ref={rulesBgParallaxRef}
-            className="absolute inset-0 bg-cover bg-[position:85%_center] md:bg-[position:78%_center] will-change-transform"
-            style={{
-              backgroundImage: `url(${rulesBgImg})`,
-              transform: `translate3d(0, 0, ${HERO_3D_CONFIG.layers.background.z}px)`,
-            }}
+          <img
+            src={rulesBgImg}
+            alt="The Dead Noctis Rules Dimension"
+            className="rules-background absolute inset-0 w-full h-full object-cover object-center pointer-events-none select-none"
+            loading="eager"
+            decoding="async"
           />
+        </div>
 
-          {/* Holographic Security Grid Ambient Core */}
-          <div className="absolute right-[14%] md:right-[20%] top-[18%] md:top-[22%] w-[260px] md:w-[350px] h-[260px] md:h-[350px] rounded-full bg-accent-glow/30 blur-[70px] pointer-events-none portal-pulse-core" />
-          <div className="absolute right-[16%] md:right-[23%] top-[20%] md:top-[25%] w-[140px] md:w-[190px] h-[140px] md:h-[190px] rounded-full bg-accent-green/45 blur-[40px] pointer-events-none portal-pulse-haze" />
-
-          {/* Deep Void Ambient Mist */}
-          <div className="absolute right-[6%] md:right-[14%] bottom-[16%] md:bottom-[22%] w-[540px] md:w-[760px] h-[290px] rounded-full bg-accent-green/12 blur-[85px] pointer-events-none ambient-fog" />
+        {/* 1.5 FAQ Intelligence Archive Plate (Storyboard 05. FAQ) - Exact 1:1 Clean Rendering */}
+        <div
+          className="absolute inset-0 will-change-transform transition-opacity duration-500 ease-out z-8"
+          style={{
+            opacity: faqSceneOpacity,
+            display: faqSceneOpacity <= 0.001 ? 'none' : 'block',
+          }}
+        >
+          <img
+            src={faqBgImg}
+            alt="The Dead Noctis FAQ Dimension"
+            className="faq-background absolute inset-0 w-full h-full object-cover object-center pointer-events-none select-none"
+            loading="eager"
+            decoding="async"
+          />
         </div>
 
         {/* 2. Hero Volumetric Portal Lighting & Beams (Right side) */}
@@ -239,7 +199,6 @@ export const ContinuousWorld: React.FC<ContinuousWorldProps> = ({
         >
           {/* Inner parallax + Z-depth layer */}
           <div
-            ref={portalParallaxRef}
             className="absolute inset-0 will-change-transform"
             style={{
               transform: `translate3d(0, 0, ${HERO_3D_CONFIG.layers.portal.z}px)`,
@@ -295,7 +254,6 @@ export const ContinuousWorld: React.FC<ContinuousWorldProps> = ({
 
         {/* 3. Hero Foreground Character Layer */}
         <div
-          ref={characterParallaxRef}
           className="absolute inset-0 transition-opacity duration-300 ease-out z-15 will-change-transform"
           style={{
             opacity: characterOpacity,
@@ -315,11 +273,10 @@ export const ContinuousWorld: React.FC<ContinuousWorldProps> = ({
           </div>
         </div>
 
-        {/* 4. Atmospheric Fog Mist Layer (active during continuous world navigation past About) */}
+        {/* 4. Atmospheric Fog Mist Layer (disabled to maintain 100% true HD artwork colors) */}
         <div
-          className="absolute inset-0 z-11 pointer-events-none ambient-fog transition-opacity duration-500"
+          className="absolute inset-0 z-11 pointer-events-none ambient-fog transition-opacity duration-500 opacity-0"
           style={{
-            opacity: isEventsActive || isRulesActive || isRulesOrFaq ? 0.3 : Math.min(0.3, Math.max(0, (scrollProgress - 0.45) * 2.0)),
             background:
               'radial-gradient(ellipse at 75% 45%, rgba(34, 255, 136, 0.14) 0%, transparent 65%)',
           }}
@@ -327,23 +284,13 @@ export const ContinuousWorld: React.FC<ContinuousWorldProps> = ({
 
         {/* 6. Interior Dimension Atmosphere */}
         <div
-          className="absolute inset-0 transition-opacity duration-700 ease-out z-12 pointer-events-none"
-          style={{ opacity: interiorHazeOpacity }}
-        >
-          <div className="absolute inset-0 opacity-[0.035] bg-[linear-gradient(to_right,#22ff88_1px,transparent_1px),linear-gradient(to_bottom,#22ff88_1px,transparent_1px)] bg-[size:4rem_4rem]" />
-          <div className="absolute top-[20%] left-1/2 -translate-x-1/2 w-[600px] h-[400px] rounded-full bg-accent-green/10 blur-[120px]" />
-          <div className="absolute top-[40%] left-0 right-0 h-px bg-gradient-to-r from-transparent via-accent-green/20 to-transparent" />
-        </div>
+          className="absolute inset-0 transition-opacity duration-700 ease-out z-12 pointer-events-none opacity-0"
+        />
 
         {/* 7. Section 07 Final Illuminated Gateway Aura */}
         <div
-          className="absolute inset-0 transition-opacity duration-700 ease-out z-14 pointer-events-none"
-          style={{ opacity: finalGatewayOpacity }}
-        >
-          <div className="absolute bottom-[15%] left-1/2 -translate-x-1/2 w-[480px] md:w-[640px] h-[480px] rounded-full bg-accent-glow/20 blur-[100px] portal-pulse-core" />
-          <div className="absolute bottom-[20%] left-1/2 -translate-x-1/2 w-[280px] md:w-[360px] h-[360px] rounded-full bg-accent-green/30 blur-[60px]" />
-          <div className="absolute bottom-0 left-1/2 -translate-x-1/2 w-[180px] h-[70%] bg-gradient-to-t from-accent-glow/25 via-accent-green/10 to-transparent blur-[40px]" />
-        </div>
+          className="absolute inset-0 transition-opacity duration-700 ease-out z-14 pointer-events-none opacity-0"
+        />
 
         {/* 8. Floating Square Pixel Canvas Engine with Cavern Wind Dynamics */}
         <AmbientCanvas
@@ -355,43 +302,14 @@ export const ContinuousWorld: React.FC<ContinuousWorldProps> = ({
           activeSection={activeSection}
         />
 
-        {/* 9. Soft Left Blend Gradient Corridor Mask (active during Events/Rules to blend text surface with continuous world) */}
-        <div
-          className="absolute inset-0 z-20 pointer-events-none transition-opacity duration-500"
-          style={{
-            opacity: isEventsActive || isRulesActive || isRulesOrFaq ? 1.0 : Math.min(1.0, Math.max(0, (scrollProgress - 0.45) * 3.5)),
-          }}
-        >
-          <div
-            className="absolute inset-0"
-            style={{
-              background:
-                'linear-gradient(to right, #020604 0%, #020604 46%, rgba(2, 6, 4, 0.96) 54%, rgba(2, 6, 4, 0.78) 66%, rgba(2, 6, 4, 0.35) 80%, transparent 92%)',
-            }}
-          />
-
-          {/* Contrast veil active only for rules/faq reading surfaces */}
-          <div
-            className={cn(
-              'absolute inset-0 transition-opacity duration-500',
-              isRulesOrFaq ? 'opacity-85 bg-background-void' : 'opacity-0'
-            )}
-          />
-
+        {/* 9. Top & Bottom Subtle Edge Vignette Masks for Nav & Footer readability */}
+        <div className="absolute inset-0 z-20 pointer-events-none">
           {/* Top Header Mask */}
           <div className="absolute top-0 left-0 right-0 h-28 bg-gradient-to-b from-background-void via-background-void/70 to-transparent" />
 
           {/* Bottom Ground Mask */}
           <div className="absolute bottom-0 left-0 right-0 h-24 bg-gradient-to-t from-background-void via-background-void/75 to-transparent" />
         </div>
-
-        {/* 10. Atmospheric Depth & Edge Vignette (active during Events/Rules) */}
-        <div
-          className="absolute inset-0 bg-[radial-gradient(ellipse_at_center,transparent_45%,rgba(2,6,4,0.85)_100%)] z-22 pointer-events-none transition-opacity duration-500"
-          style={{
-            opacity: isEventsActive || isRulesActive || isRulesOrFaq ? 1.0 : Math.min(1.0, Math.max(0, (scrollProgress - 0.45) * 3.5)),
-          }}
-        />
       </div>
     </div>
   );

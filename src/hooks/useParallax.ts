@@ -23,8 +23,8 @@ export const HERO_3D_CONFIG = {
    * translate3d only; larger offset = closer layer.
    */
   layers: {
-    /** Background plate: slowest movement, pushed back in Z */
-    background: { x: 3, y: 3, z: -40 },
+    /** Background plate: zero mouse movement (backgrounds remain stationary) */
+    background: { x: 0, y: 0, z: 0 },
     /** Motivated character rim light / contact shadow */
     character:  { x: 4, y: 4, z: 20 },
     /** Volumetric portal rays & core glow */
@@ -93,43 +93,14 @@ export function useParallax(refs: ParallaxRefs, introComplete: boolean) {
 
     if (isTouch || prefersReduced) return;
 
-    const { lerpFactor, maxTilt, layers } = HERO_3D_CONFIG;
+    const { lerpFactor, layers } = HERO_3D_CONFIG;
     const EPSILON = 0.0005;
 
     const applyTransforms = (cx: number, cy: number) => {
       const currentRefs = refsHolder.current;
 
-      // 1. Rotate scene container (rotateY with X-movement, rotateX with -Y-movement)
-      if (currentRefs.sceneContainerRef?.current) {
-        const rotY = (cx * maxTilt.rotateY).toFixed(3);
-        const rotX = (-cy * maxTilt.rotateX).toFixed(3);
-        currentRefs.sceneContainerRef.current.style.transform = `rotateX(${rotX}deg) rotateY(${rotY}deg)`;
-      }
-
-      // 2. Parallax layers with translate3d
-      if (currentRefs.backgroundRef?.current) {
-        const x = (cx * layers.background.x).toFixed(2);
-        const y = (cy * layers.background.y).toFixed(2);
-        currentRefs.backgroundRef.current.style.transform = `translate3d(${x}px, ${y}px, ${layers.background.z}px)`;
-      }
-
-      if (currentRefs.aboutBackgroundRef?.current) {
-        const x = (cx * layers.background.x).toFixed(2);
-        const y = (cy * layers.background.y).toFixed(2);
-        currentRefs.aboutBackgroundRef.current.style.transform = `translate3d(${x}px, ${y}px, ${layers.background.z}px)`;
-      }
-
-      if (currentRefs.eventsBackgroundRef?.current) {
-        const x = (cx * layers.background.x).toFixed(2);
-        const y = (cy * layers.background.y).toFixed(2);
-        currentRefs.eventsBackgroundRef.current.style.transform = `translate3d(${x}px, ${y}px, ${layers.background.z}px)`;
-      }
-
-      if (currentRefs.rulesBackgroundRef?.current) {
-        const x = (cx * layers.background.x).toFixed(2);
-        const y = (cy * layers.background.y).toFixed(2);
-        currentRefs.rulesBackgroundRef.current.style.transform = `translate3d(${x}px, ${y}px, ${layers.background.z}px)`;
-      }
+      // NOTE: Mouse-responsive movement on background images and scene container removed per specification.
+      // Background plates remain completely stationary.
 
       if (currentRefs.characterRef?.current) {
         const x = (cx * layers.character.x).toFixed(2);
