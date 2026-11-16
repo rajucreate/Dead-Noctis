@@ -54,8 +54,9 @@ export const HeroSection: React.FC<HeroSectionProps> = ({
   return (
     <section
       id="home"
+      data-bg="hero"
       className={cn(
-        'relative min-h-screen w-full flex items-center justify-start overflow-hidden select-none',
+        'relative min-h-screen w-full flex items-center justify-start overflow-hidden select-none bg-transparent',
         className
       )}
     >

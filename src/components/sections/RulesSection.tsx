@@ -305,8 +305,9 @@ export const RulesSection: React.FC<RulesSectionProps> = ({ className }) => {
   return (
     <section
       id="rules"
+      data-bg="rules"
       className={cn(
-        'relative min-h-screen w-full flex items-center justify-start py-28 sm:py-36 md:py-40 overflow-hidden select-none',
+        'relative min-h-screen w-full flex items-center justify-start py-28 sm:py-36 md:py-40 overflow-hidden select-none bg-transparent',
         className
       )}
       aria-label="Competition Rules The Dead Noctis CTF"

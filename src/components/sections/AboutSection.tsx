@@ -619,9 +619,10 @@ export const AboutSection: React.FC<AboutSectionProps> = ({ className }) => {
   return (
     <section
       id="about"
+      data-bg="about"
       ref={sectionRef}
       className={cn(
-        'relative min-h-screen w-full flex items-center justify-start py-28 sm:py-36 md:py-40 overflow-hidden select-none',
+        'relative min-h-screen w-full flex items-center justify-start py-28 sm:py-36 md:py-40 overflow-hidden select-none bg-transparent',
         className
       )}
       aria-label="About The Dead Noctis CTF"

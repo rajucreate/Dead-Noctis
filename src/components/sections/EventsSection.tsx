@@ -320,8 +320,9 @@ export const EventsSection: React.FC<EventsSectionProps> = ({ className }) => {
   return (
     <section
       id="events"
+      data-bg="events"
       className={cn(
-        'relative min-h-screen w-full flex items-center justify-start py-28 sm:py-36 md:py-40 overflow-hidden select-none',
+        'relative min-h-screen w-full flex items-center justify-start py-28 sm:py-36 md:py-40 overflow-hidden select-none bg-transparent',
         className
       )}
       aria-label="Events Details The Dead Noctis CTF"

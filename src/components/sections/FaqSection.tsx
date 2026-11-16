@@ -105,9 +105,10 @@ export const FaqSection: React.FC<FaqSectionProps> = ({ className }) => {
   return (
     <section
       id="faq"
+      data-bg="faq"
       ref={sectionRef}
       className={cn(
-        'relative min-h-screen w-full flex items-center justify-start py-28 sm:py-36 md:py-40 overflow-hidden select-none',
+        'relative min-h-screen w-full flex items-center justify-start py-28 sm:py-36 md:py-40 overflow-hidden select-none bg-transparent',
         className
       )}
       aria-label="Frequently Asked Questions Dead Noctis CTF"

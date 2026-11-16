@@ -5,16 +5,19 @@ import { AboutSection } from '@/components/sections/AboutSection';
 import { EventsSection } from '@/components/sections/EventsSection';
 import { RulesSection } from '@/components/sections/RulesSection';
 import { FaqSection } from '@/components/sections/FaqSection';
-import { ContinuousWorld } from '@/components/world/ContinuousWorld';
+import { BackgroundStack } from '@/components/layout/BackgroundStack';
+import { AmbientCanvas } from '@/components/ui/AmbientCanvas';
+import { useActiveSection } from '@/hooks/useActiveSection';
 import { useScrollProgress } from '@/hooks/useScrollProgress';
+import { useIntro } from '@/components/animation/IntroSequence';
 import { usePortalTransition } from '@/components/animation/CTATransition';
 import { usePageMeta } from '@/hooks/usePageMeta';
 import { siteConfig } from '@/config/site';
 
 /**
  * HomePage:
- * Renders the approved hero section and continuous 3D world scene,
- * flowing seamlessly into the About and Events sections matching the storyboard.
+ * Renders the fixed BackgroundStack for smooth cross-fading scroll transitions,
+ * the subtle ambient floating cyber particles, and the foreground section content flow.
  */
 export const HomePage: React.FC = () => {
   usePageMeta(
@@ -22,7 +25,9 @@ export const HomePage: React.FC = () => {
     siteConfig.meta.description
   );
 
-  const { progress, activeSection } = useScrollProgress();
+  const { progress } = useScrollProgress();
+  const activeSection = useActiveSection('hero');
+  const { hasHandoffStarted } = useIntro();
   const { triggerTransition } = usePortalTransition();
   const navigate = useNavigate();
 
@@ -60,8 +65,18 @@ export const HomePage: React.FC = () => {
 
   return (
     <div className="relative min-h-screen">
-      {/* Persistent 3D World Scene with Cavern & Floating Island Transitions */}
-      <ContinuousWorld scrollProgress={progress} activeSection={activeSection} />
+      {/* Fixed Full-Viewport Background Stack (Smooth Crossfade & Depth Scale) */}
+      <BackgroundStack activeSection={activeSection} />
+
+      {/* Floating Cyber Particle Canvas (preserved atmospheric effect from ContinuousWorld) */}
+      <AmbientCanvas
+        className="fixed inset-0 z-[1] pointer-events-none select-none"
+        enabled={hasHandoffStarted && activeSection !== 'hero' && activeSection !== 'home'}
+        particleCount={45}
+        speedMultiplier={1.0}
+        scrollProgress={progress}
+        activeSection={activeSection}
+      />
 
       {/* Foreground Content Flow */}
       {sectionsContent}
