@@ -1,6 +1,5 @@
 import React, { useRef, useState, useEffect, useCallback } from 'react';
 import { about } from '@/content/siteContent';
-import { SectionLabel } from '@/components/ui/SectionLabel';
 import { usePrefersReducedMotion } from '@/hooks/usePrefersReducedMotion';
 import { cn } from '@/utils/cn';
 
@@ -369,16 +368,17 @@ const AttractiveVoxelCard: React.FC<HighlightItemData> = ({
       role="article"
       aria-label={`${title}: ${subtitle}`}
       className={cn(
-        'relative group p-5 sm:p-6 select-none cursor-default overflow-hidden',
+        'relative group p-4 sm:p-5 lg:p-6 xl:p-7 select-none cursor-default overflow-hidden backdrop-blur-md',
         'w-full h-full flex flex-col justify-between',
         // Obsidian terminal surface with restrained emerald illumination
-        'bg-[#030906]/92 border border-accent-green/30 hover:border-accent-green/85',
-        'shadow-[0_8px_32px_rgba(0,0,0,0.85)] hover:shadow-[0_0_30px_rgba(34,255,136,0.22)]',
+        'border border-accent-green/35 hover:border-accent-green/80',
+        'shadow-[0_12px_36px_rgba(0,0,0,0.88)] hover:shadow-[0_0_30px_rgba(34,255,136,0.24)]',
         'chamfer-sm will-change-transform',
         'focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-accent-green focus-visible:ring-offset-2 focus-visible:ring-offset-[#020604]',
         sectionEntered ? 'opacity-100' : 'opacity-0'
       )}
       style={{
+        backgroundColor: 'rgba(3, 10, 6, 0.92)',
         transform: getTransform(),
         transformStyle: 'preserve-3d',
         transition: getTransition(),
@@ -409,25 +409,7 @@ const AttractiveVoxelCard: React.FC<HighlightItemData> = ({
         />
       </div>
 
-      {/* 3. Dynamic Emerald Edge Highlight tracking pointer position */}
-      <div
-        className={cn(
-          'absolute inset-0 pointer-events-none transition-opacity duration-300 z-10',
-          isHovered ? 'opacity-100' : 'opacity-0'
-        )}
-        style={{
-          background:
-            'radial-gradient(220px circle at var(--card-glow-x, 50%) var(--card-glow-y, 50%), rgba(34, 255, 136, 0.5), transparent 72%)',
-          mask: 'linear-gradient(#fff 0 0) content-box, linear-gradient(#fff 0 0)',
-          maskComposite: 'exclude',
-          WebkitMask: 'linear-gradient(#fff 0 0) content-box, linear-gradient(#fff 0 0)',
-          WebkitMaskComposite: 'xor',
-          padding: '1.2px',
-        }}
-        aria-hidden="true"
-      />
-
-      {/* 4. Traveling Emerald Border Ray (Thin perimeter pulse) */}
+      {/* 3. Traveling Emerald Border Ray (Thin perimeter pulse) */}
       <div
         className={cn(
           'absolute inset-0 pointer-events-none overflow-hidden transition-opacity duration-300 z-10',
@@ -451,45 +433,34 @@ const AttractiveVoxelCard: React.FC<HighlightItemData> = ({
         />
       </div>
 
-      {/* 5. Cursor-Following Specular Radial Glare (Z: 4px) */}
-      {isHovered && !prefersReduced && (
-        <div
-          className="absolute inset-0 pointer-events-none transition-opacity duration-150 z-0"
-          style={{
-            background:
-              'radial-gradient(180px circle at var(--card-glow-x, 50%) var(--card-glow-y, 50%), rgba(34, 255, 136, 0.14), transparent 72%)',
-          }}
-          aria-hidden="true"
-        />
-      )}
-
-      {/* 6. Illuminated Cyber Corner Brackets ⌜ ⌝ ⌞ ⌟ */}
+      {/* 4. Illuminated Cyber Corner Brackets ⌜ ⌝ ⌞ ⌟ */}
       <div className="absolute top-1.5 left-1.5 w-2.5 h-2.5 border-t-2 border-l-2 border-accent-green/60 group-hover:border-accent-glow transition-all duration-200 pointer-events-none" />
       <div className="absolute top-1.5 right-1.5 w-2.5 h-2.5 border-t-2 border-r-2 border-accent-green/60 group-hover:border-accent-glow transition-all duration-200 pointer-events-none" />
       <div className="absolute bottom-1.5 left-1.5 w-2.5 h-2.5 border-b-2 border-l-2 border-accent-green/60 group-hover:border-accent-glow transition-all duration-200 pointer-events-none" />
       <div className="absolute bottom-1.5 right-1.5 w-2.5 h-2.5 border-b-2 border-r-2 border-accent-green/60 group-hover:border-accent-glow transition-all duration-200 pointer-events-none" />
+      <div className="absolute bottom-1.5 right-1.5 w-2.5 h-2.5 border-b-2 border-r-2 border-accent-green/60 group-hover:border-accent-glow transition-all duration-200 pointer-events-none" />
 
       {/* 7. Top Protocol Header & Live Status LED (Depth: Z: 14px) */}
       <div
-        className="flex items-center justify-between pb-3.5 mb-5 border-b border-ctf-border/40 will-change-transform"
+        className="flex items-center justify-between gap-1.5 pb-3 mb-4 sm:pb-3.5 sm:mb-5 border-b border-ctf-border/40 will-change-transform"
         style={{
           transform: prefersReduced ? undefined : 'translateZ(14px)',
           transformStyle: 'preserve-3d',
         }}
       >
-        <div className="flex items-center gap-2">
+        <div className="flex items-center gap-1.5 min-w-0">
           {/* Blinking Status LED */}
-          <span className="relative flex h-2 w-2">
+          <span className="relative flex h-2 w-2 shrink-0">
             <span className="animate-ping absolute inline-flex h-full w-full rounded-full bg-accent-glow opacity-75" />
             <span className="relative inline-flex rounded-full h-2 w-2 bg-accent-green shadow-neon-sm" />
           </span>
-          <span className="font-mono text-[10px] tracking-[0.2em] text-accent-green/90 uppercase font-semibold">
+          <span className="font-mono text-[8.5px] sm:text-[9.5px] lg:text-[10px] tracking-wider text-accent-green/90 uppercase font-semibold truncate">
             {protocolTag}
           </span>
         </div>
 
         {/* Status Tag Chip */}
-        <span className="font-mono text-[9px] px-1.5 py-0.5 bg-accent-green/10 text-accent-green border border-accent-green/30 tracking-widest uppercase">
+        <span className="font-mono text-[7.5px] sm:text-[8.5px] lg:text-[9px] px-1.5 py-0.5 bg-accent-green/10 text-accent-green border border-accent-green/30 tracking-widest uppercase shrink-0 font-medium">
           {statusText}
         </span>
       </div>
@@ -503,23 +474,28 @@ const AttractiveVoxelCard: React.FC<HighlightItemData> = ({
           transition: 'transform 0.3s cubic-bezier(0.16, 1, 0.3, 1)',
         }}
       >
-        {/* Illuminated 3D Pedestal with smooth hover response */}
+        {/* Illuminated 3D Pedestal with smooth hover response (shifts left on hover) */}
         <div
           className={cn(
             'w-12 h-12 p-2 rounded-xs flex items-center justify-center transition-all duration-300',
             'bg-[#06150c]/90 border border-accent-green/45 group-hover:border-accent-glow',
             'shadow-[0_0_16px_rgba(34,255,136,0.18)] group-hover:shadow-[0_0_24px_rgba(34,255,136,0.5)]',
-            'group-hover:rotate-[-3deg] group-hover:scale-105'
+            'group-hover:rotate-[-3deg] group-hover:scale-105 group-hover:-translate-x-1.5'
           )}
         >
           <HighlightIcon3D id={id} isHovered={isHovered} />
         </div>
 
-        {/* Large Decorative Matrix Watermark Index */}
+        {/* Large Decorative Matrix Watermark Index (visible at idle, shifts right and highlights on hover) */}
         <span
-          className="font-rajdhani font-bold text-3xl sm:text-4xl text-accent-green/15 group-hover:text-accent-green/35 transition-colors select-none will-change-transform"
+          className={cn(
+            'font-rajdhani font-bold text-3xl sm:text-4xl select-none will-change-transform',
+            'transition-all duration-300 ease-out',
+            'text-accent-green/55 group-hover:text-accent-glow',
+            'group-hover:translate-x-2 group-hover:drop-shadow-[0_0_16px_rgba(34,255,136,0.9)]'
+          )}
           style={{
-            transform: prefersReduced ? undefined : 'translateZ(8px)',
+            transform: prefersReduced ? undefined : 'translateZ(14px)',
           }}
         >
           {indexStr}
@@ -528,30 +504,30 @@ const AttractiveVoxelCard: React.FC<HighlightItemData> = ({
 
       {/* 9. Typography Block with refined hierarchy (Depth: Z: 20px) */}
       <div
-        className="will-change-transform mb-4 flex-1 flex flex-col justify-start"
+        className="will-change-transform mb-5 flex-1 flex flex-col justify-start"
         style={{
           transform: prefersReduced ? undefined : 'translateZ(20px)',
           transformStyle: 'preserve-3d',
         }}
       >
-        <h3 className="text-lg sm:text-xl font-bold font-rajdhani tracking-[0.16em] uppercase mb-1.5 text-white group-hover:text-accent-green transition-colors duration-200 drop-shadow-[0_2px_8px_rgba(0,0,0,0.9)]">
+        <h3 className="text-lg sm:text-xl font-bold font-rajdhani tracking-[0.16em] uppercase mb-2 text-white group-hover:text-accent-green transition-colors duration-200 drop-shadow-[0_2px_8px_rgba(0,0,0,0.9)]">
           {title}
         </h3>
 
-        <p className="text-xs sm:text-sm text-[#9ec4b0] group-hover:text-[#c4ded1] tracking-wide leading-relaxed font-sans font-medium transition-colors min-h-[38px] sm:min-h-[44px]">
+        <p className="text-xs sm:text-sm text-[#a3cbb5] group-hover:text-[#d0ebe0] tracking-wide leading-relaxed font-sans font-normal transition-colors">
           {subtitle}
         </p>
       </div>
 
       {/* 10. Bottom Segmented 3-Bar Voxel Power Gauge (Depth: Z: 12px) */}
       <div
-        className="pt-3 mt-auto border-t border-ctf-border/30 flex items-center justify-between font-mono text-[9px] text-ctf-muted/70 will-change-transform"
+        className="pt-3.5 mt-auto border-t border-ctf-border/40 flex items-center justify-between font-mono text-[9px] text-ctf-muted/70 will-change-transform"
         style={{
           transform: prefersReduced ? undefined : 'translateZ(12px)',
           transformStyle: 'preserve-3d',
         }}
       >
-        <span className="tracking-widest uppercase text-accent-green/75 group-hover:text-accent-green transition-colors">
+        <span className="tracking-widest uppercase text-accent-green/85 group-hover:text-accent-green font-semibold transition-colors">
           LINK: 100% OK
         </span>
 
@@ -622,14 +598,57 @@ export const AboutSection: React.FC<AboutSectionProps> = ({ className }) => {
       data-bg="about"
       ref={sectionRef}
       className={cn(
-        'relative min-h-screen w-full flex items-center justify-start py-28 sm:py-36 md:py-40 overflow-hidden select-none bg-transparent',
+        'relative min-h-screen w-full flex items-center justify-center py-28 sm:py-36 md:py-40 overflow-hidden select-none bg-[#080B09]',
         className
       )}
       aria-label="About The Dead Noctis CTF"
     >
-      <div className="relative z-20 w-full max-w-[1440px] mx-auto px-6 sm:px-10 md:px-16 lg:px-20 xl:px-28">
-        {/* Left Column Content Container (Matches Storyboard Frame 02) */}
-        <div className="max-w-xl md:max-w-2xl lg:max-w-[720px] xl:max-w-[760px] text-left">
+      {/* Subtle Atmospheric Backdrop Scrim & Portal Softening Overlay */}
+      <div className="absolute inset-0 z-10 pointer-events-none overflow-hidden" aria-hidden="true">
+        {/* 1. Global ambient darkening: refined deep charcoal black/green overlay to sit behind content */}
+        <div
+          className="absolute inset-0"
+          style={{
+            background:
+              'linear-gradient(180deg, rgba(8, 11, 9, 0.68) 0%, rgba(8, 11, 9, 0.44) 30%, rgba(8, 11, 9, 0.50) 70%, rgba(8, 11, 9, 0.76) 100%)',
+          }}
+        />
+
+        {/* 2. Softened portal light baffle: tempers the bright glowing voxel portal light source without overpowering cards */}
+        <div
+          className="absolute top-[8%] right-[5%] sm:right-[10%] w-[520px] md:w-[660px] h-[520px] md:h-[660px] rounded-full"
+          style={{
+            background:
+              'radial-gradient(circle at 60% 40%, rgba(8, 11, 9, 0.62) 0%, rgba(8, 11, 9, 0.35) 48%, transparent 74%)',
+          }}
+        />
+
+        {/* 3. Reading bed behind header text (upper left) for effortless typography readability */}
+        <div
+          className="absolute top-0 left-0 w-full sm:w-[65%] md:w-[55%] h-[60%]"
+          style={{
+            background:
+              'radial-gradient(ellipse at 25% 35%, rgba(8, 11, 9, 0.56) 0%, transparent 78%)',
+          }}
+        />
+
+        {/* 4. Reading bed behind the three cards for grounded contrast */}
+        <div
+          className="absolute bottom-0 left-0 right-0 h-[65%]"
+          style={{
+            background:
+              'linear-gradient(to top, rgba(8, 11, 9, 0.58) 0%, rgba(8, 11, 9, 0.26) 70%, transparent 100%)',
+          }}
+        />
+
+        {/* 5. Top & Bottom subtle seamless edge blending */}
+        <div className="absolute top-0 left-0 right-0 h-28 bg-gradient-to-b from-[#080B09] via-[#080B09]/60 to-transparent" />
+        <div className="absolute bottom-0 left-0 right-0 h-28 bg-gradient-to-t from-[#080B09] via-[#080B09]/60 to-transparent" />
+      </div>
+
+      <div className="relative z-20 w-full max-w-[1440px] mx-auto px-6 sm:px-10 md:px-12 lg:px-16 xl:px-20">
+        {/* Full-Width Header Area */}
+        <div className="w-full text-left mb-8 sm:mb-10 lg:mb-12">
           {/* Stagger Item 1: Section Overline Label & Tactical Intelligence Briefing Telemetry */}
           <div
             className="mb-4 sm:mb-6 flex flex-wrap items-center justify-between gap-3 will-change-transform"
@@ -640,26 +659,31 @@ export const AboutSection: React.FC<AboutSectionProps> = ({ className }) => {
                 'opacity 0.65s cubic-bezier(0.16, 1, 0.3, 1) 0ms, transform 0.65s cubic-bezier(0.16, 1, 0.3, 1) 0ms',
             }}
           >
-            <div className="flex items-center gap-2.5">
-              <SectionLabel>{about.label}</SectionLabel>
-              <span className="font-mono text-[10px] tracking-cyber text-accent-green/70 uppercase hidden xs:inline">
-                // INTEL BRIEFING
+            <div className="px-2.5 py-1 bg-[#03140a]/85 border border-accent-green/35 inline-flex items-center gap-2 select-none">
+              <span className="w-1.5 h-1.5 bg-accent-green shadow-neon-sm" aria-hidden="true" />
+              <span className="font-mono text-xs font-semibold tracking-[0.25em] text-accent-green uppercase">
+                {about.label}
               </span>
             </div>
 
             {/* Tactical Briefing Status Indicator */}
-            <div className="flex items-center gap-2 font-mono text-[9px] sm:text-[10px] tracking-widest text-accent-green/80 uppercase">
-              <span className="relative flex h-2 w-2">
-                <span className="animate-ping absolute inline-flex h-full w-full rounded-full bg-accent-glow opacity-75" />
-                <span className="relative inline-flex rounded-full h-2 w-2 bg-accent-green" />
+            <div className="flex items-center gap-3 sm:gap-4 font-mono text-[10px] sm:text-xs">
+              <span className="text-accent-green/75 tracking-wider font-mono hidden sm:inline">
+                [SYS_ENTRY // 0xDEAD_NOCTIS]
               </span>
-              <span>CLASSIFIED // LEVEL 1</span>
+              <div className="flex items-center gap-2 tracking-widest text-accent-green/90 uppercase font-semibold">
+                <span className="relative flex h-2 w-2">
+                  <span className="animate-ping absolute inline-flex h-full w-full rounded-full bg-accent-glow opacity-75" />
+                  <span className="relative inline-flex rounded-full h-2 w-2 bg-accent-green" />
+                </span>
+                <span>CLASSIFIED // LEVEL 1</span>
+              </div>
             </div>
           </div>
 
           {/* Stagger Item 2: Main Headline ("A NEW DIMENSION AWAITS") */}
           <div
-            className="will-change-transform"
+            className="will-change-transform mb-6 sm:mb-8"
             style={{
               transform: !hasEntered && !prefersReduced ? 'translateY(24px)' : 'translateY(0)',
               opacity: !hasEntered && !prefersReduced ? 0 : 1,
@@ -667,16 +691,19 @@ export const AboutSection: React.FC<AboutSectionProps> = ({ className }) => {
                 'opacity 0.65s cubic-bezier(0.16, 1, 0.3, 1) 120ms, transform 0.65s cubic-bezier(0.16, 1, 0.3, 1) 120ms',
             }}
           >
-            <h2 className="text-3xl sm:text-4xl md:text-5xl lg:text-[54px] font-bold font-rajdhani tracking-tight text-white uppercase leading-[1.06] mb-6 drop-shadow-[0_2px_12px_rgba(0,0,0,0.8)]">
-              A NEW DIMENSION
-              <br />
-              <span className="text-white">AWAITS</span>
+            <h2 className="text-4xl sm:text-5xl md:text-6xl lg:text-[68px] font-bold font-rajdhani tracking-tight uppercase leading-[0.98] select-none">
+              <span className="block text-white drop-shadow-[0_2px_12px_rgba(0,0,0,0.9)]">
+                A NEW DIMENSION
+              </span>
+              <span className="block text-accent-green drop-shadow-[0_0_24px_rgba(34,255,136,0.85)]">
+                AWAITS
+              </span>
             </h2>
           </div>
 
-          {/* Stagger Item 3: Body Paragraph with enhanced typography hierarchy */}
+          {/* Stagger Item 3: Description & Telemetry Status Badges (Following ref_style.jpg) */}
           <div
-            className="will-change-transform"
+            className="flex flex-col lg:flex-row items-stretch lg:items-center justify-between gap-4 sm:gap-6 will-change-transform"
             style={{
               transform: !hasEntered && !prefersReduced ? 'translateY(24px)' : 'translateY(0)',
               opacity: !hasEntered && !prefersReduced ? 0 : 1,
@@ -684,40 +711,66 @@ export const AboutSection: React.FC<AboutSectionProps> = ({ className }) => {
                 'opacity 0.65s cubic-bezier(0.16, 1, 0.3, 1) 240ms, transform 0.65s cubic-bezier(0.16, 1, 0.3, 1) 240ms',
             }}
           >
-            <p className="text-sm sm:text-base md:text-lg text-[#9ec4b0] leading-relaxed font-sans max-w-lg mb-10 sm:mb-12 font-normal">
-              {about.body}
-            </p>
-          </div>
+            {/* Terminal Dossier Box */}
+            <div className="relative flex-1 p-4 sm:p-5 bg-[#030906]/80 border border-accent-green/25 rounded-none overflow-hidden">
+              <div className="absolute top-0 left-0 w-2 h-2 border-t-2 border-l-2 border-accent-green" />
+              <div className="absolute bottom-0 right-0 w-2 h-2 border-b-2 border-r-2 border-accent-green" />
 
-          {/* Stagger Item 4: Three Interactive Intelligence Highlight Cards (LEARN // SOLVE // CONNECT) */}
-          <div
-            className="grid grid-cols-1 sm:grid-cols-3 gap-4 sm:gap-5 pt-2 items-stretch"
-            role="list"
-            aria-label="Event Highlights"
-          >
-            {about.highlights.map((item, idx) => {
-              const meta = HIGHLIGHT_METADATA[item.id] || {
-                protocolTag: 'MODULE // 01',
-                statusText: 'READY',
-                indexStr: '01',
-              };
+              <p className="font-mono text-xs sm:text-sm text-[#cbd5e1] leading-relaxed font-normal">
+                The <span className="text-accent-green font-semibold">Dead Noctis CTF</span> is a beginner friendly capture the flag event organized by{' '}
+                <span className="text-white font-semibold">Google Developer Groups, KL University</span> in collaboration with{' '}
+                <span className="text-white font-semibold">White Hat Hackers</span>.
+              </p>
+            </div>
 
-              return (
-                <div key={item.id} role="listitem" className="h-full flex flex-col">
-                  <AttractiveVoxelCard
-                    id={item.id}
-                    title={item.title}
-                    subtitle={item.subtitle}
-                    protocolTag={meta.protocolTag}
-                    statusText={meta.statusText}
-                    indexStr={meta.indexStr}
-                    index={idx}
-                    sectionEntered={hasEntered}
-                  />
-                </div>
-              );
-            })}
+            {/* 2x2 Telemetry Metric Chips */}
+            <div className="grid grid-cols-2 gap-2 sm:gap-2.5 w-full lg:w-auto shrink-0 font-mono text-[10px] sm:text-xs">
+              <div className="px-3.5 py-2.5 bg-[#030906]/85 border border-accent-green/25 text-accent-green tracking-wider uppercase flex items-center justify-center font-medium whitespace-nowrap">
+                TARGET: ALL SKILL LEVELS
+              </div>
+              <div className="px-3.5 py-2.5 bg-[#030906]/85 border border-accent-green/25 text-accent-green tracking-wider uppercase flex items-center justify-center font-medium whitespace-nowrap">
+                TYPE: JEOPARDY / CTF
+              </div>
+              <div className="px-3.5 py-2.5 bg-[#030906]/85 border border-accent-green/25 text-accent-green tracking-wider uppercase flex items-center justify-center font-medium whitespace-nowrap">
+                MODE: TEAMS / SOLO
+              </div>
+              <div className="px-3.5 py-2.5 bg-[#030906]/85 border border-accent-green/25 text-accent-green tracking-wider uppercase flex items-center justify-center font-medium whitespace-nowrap gap-1.5">
+                <span className="w-1.5 h-1.5 rounded-full bg-accent-glow shadow-neon-sm animate-pulse" />
+                SYS: ONLINE
+              </div>
+            </div>
           </div>
+        </div>
+
+        {/* Stagger Item 4: Three Interactive Intelligence Highlight Cards (LEARN // SOLVE // CONNECT) */}
+        {/* Full-width balanced 3-column system across the container */}
+        <div
+          className="w-full grid grid-cols-1 md:grid-cols-3 gap-5 lg:gap-6 xl:gap-8 items-stretch"
+          role="list"
+          aria-label="Event Highlights"
+        >
+          {about.highlights.map((item, idx) => {
+            const meta = HIGHLIGHT_METADATA[item.id] || {
+              protocolTag: 'MODULE // 01',
+              statusText: 'READY',
+              indexStr: '01',
+            };
+
+            return (
+              <div key={item.id} role="listitem" className="h-full flex flex-col">
+                <AttractiveVoxelCard
+                  id={item.id}
+                  title={item.title}
+                  subtitle={item.subtitle}
+                  protocolTag={meta.protocolTag}
+                  statusText={meta.statusText}
+                  indexStr={meta.indexStr}
+                  index={idx}
+                  sectionEntered={hasEntered}
+                />
+              </div>
+            );
+          })}
         </div>
       </div>
     </section>

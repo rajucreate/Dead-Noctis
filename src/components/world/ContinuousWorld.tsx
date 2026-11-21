@@ -91,7 +91,11 @@ export const ContinuousWorld: React.FC<ContinuousWorldProps> = ({
         'fixed inset-0 z-0 overflow-hidden pointer-events-none select-none',
         className
       )}
-      style={{ perspective: `${perspective}px` }}
+      style={{
+        perspective: `${perspective}px`,
+        backgroundColor: isAboutActive || isEventsActive || isRulesActive || isFaqActive ? '#080B09' : '#020604',
+        transition: 'background-color 600ms ease-out',
+      }}
       aria-hidden="true"
     >
       {/* 3D Scene Perspective Container */}

@@ -33,7 +33,7 @@ export const DimensionSection: React.FC<DimensionSectionProps> = ({ className })
     <section
       id="dimension"
       className={cn(
-        'relative min-h-[85vh] w-full flex items-center justify-center py-28 md:py-36 overflow-hidden select-none',
+        'relative min-h-[85vh] w-full flex items-center justify-center py-28 md:py-36 overflow-hidden select-none bg-[#080B09]',
         className
       )}
     >

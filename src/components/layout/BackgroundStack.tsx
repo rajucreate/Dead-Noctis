@@ -105,6 +105,10 @@ export const BackgroundStack: React.FC<BackgroundStackProps> = ({
         isVisible ? 'opacity-100' : 'opacity-0',
         className
       )}
+      style={{
+        backgroundColor: normalizedActive === 'hero' || normalizedActive === 'home' ? '#020604' : '#080B09',
+        transition: 'background-color 600ms ease-out, opacity 700ms ease-out',
+      }}
       aria-hidden="true"
     >
       {/* ── Stacked Section Image Layers ─────────────────────────────────── */}
@@ -117,6 +121,7 @@ export const BackgroundStack: React.FC<BackgroundStackProps> = ({
             className="absolute inset-0 w-full h-full will-change-[opacity,transform]"
             style={{
               opacity: isActive ? 1 : 0,
+              backgroundColor: layer.id === 'hero' ? 'transparent' : '#080B09',
               transform: prefersReduced
                 ? 'none'
                 : isActive
@@ -131,7 +136,12 @@ export const BackgroundStack: React.FC<BackgroundStackProps> = ({
             <img
               src={layer.src}
               alt={layer.alt}
-              className="absolute inset-0 w-full h-full object-cover object-center pointer-events-none select-none"
+              className={cn(
+                'absolute inset-0 w-full h-full object-cover object-center pointer-events-none select-none',
+                layer.id === 'about' && 'about-background',
+                layer.id === 'events' && 'events-background',
+                layer.id === 'faq' && 'faq-background'
+              )}
               loading="eager"
               decoding="async"
               // @ts-expect-error fetchpriority is standard in modern HTML
@@ -145,27 +155,47 @@ export const BackgroundStack: React.FC<BackgroundStackProps> = ({
       <div className="absolute inset-0 z-10 pointer-events-none">
         {/* Subtle radial vignette softens extreme screen edges while keeping the focal artwork bright */}
         <div
-          className="absolute inset-0"
+          className="absolute inset-0 transition-all duration-500"
           style={{
             background:
-              'radial-gradient(circle at 62% 48%, transparent 40%, rgba(3, 9, 6, 0.35) 80%, rgba(2, 6, 4, 0.70) 100%)',
+              normalizedActive === 'hero' || normalizedActive === 'home'
+                ? 'radial-gradient(circle at 62% 48%, transparent 40%, rgba(3, 9, 6, 0.35) 80%, rgba(2, 6, 4, 0.70) 100%)'
+                : 'radial-gradient(circle at 62% 48%, transparent 40%, rgba(8, 11, 9, 0.35) 80%, rgba(8, 11, 9, 0.70) 100%)',
           }}
         />
 
         {/* Localized left-side reading corridor (behind text column) */}
         <div
-          className="absolute inset-y-0 left-0 w-full sm:w-[58%] md:w-[50%] lg:w-[45%]"
+          className="absolute inset-y-0 left-0 w-full sm:w-[58%] md:w-[50%] lg:w-[45%] transition-all duration-500"
           style={{
             background:
-              'linear-gradient(to right, rgba(2, 6, 4, 0.50) 0%, rgba(2, 6, 4, 0.20) 70%, transparent 100%)',
+              normalizedActive === 'hero' || normalizedActive === 'home'
+                ? 'linear-gradient(to right, rgba(2, 6, 4, 0.50) 0%, rgba(2, 6, 4, 0.20) 70%, transparent 100%)'
+                : 'linear-gradient(to right, rgba(8, 11, 9, 0.50) 0%, rgba(8, 11, 9, 0.20) 70%, transparent 100%)',
           }}
         />
 
         {/* Top Header / Navigation Edge Mask */}
-        <div className="absolute top-0 left-0 right-0 h-28 bg-gradient-to-b from-background-void/90 via-background-void/50 to-transparent" />
+        <div
+          className="absolute top-0 left-0 right-0 h-28 transition-all duration-500"
+          style={{
+            background:
+              normalizedActive === 'hero' || normalizedActive === 'home'
+                ? 'linear-gradient(to bottom, rgba(2, 6, 4, 0.90) 0%, rgba(2, 6, 4, 0.50) 50%, transparent 100%)'
+                : 'linear-gradient(to bottom, rgba(8, 11, 9, 0.90) 0%, rgba(8, 11, 9, 0.50) 50%, transparent 100%)',
+          }}
+        />
 
         {/* Bottom Ground / Scroll Edge Mask */}
-        <div className="absolute bottom-0 left-0 right-0 h-24 bg-gradient-to-t from-background-void/90 via-background-void/50 to-transparent" />
+        <div
+          className="absolute bottom-0 left-0 right-0 h-24 transition-all duration-500"
+          style={{
+            background:
+              normalizedActive === 'hero' || normalizedActive === 'home'
+                ? 'linear-gradient(to top, rgba(2, 6, 4, 0.90) 0%, rgba(2, 6, 4, 0.50) 50%, transparent 100%)'
+                : 'linear-gradient(to top, rgba(8, 11, 9, 0.90) 0%, rgba(8, 11, 9, 0.50) 50%, transparent 100%)',
+          }}
+        />
       </div>
     </div>
   );

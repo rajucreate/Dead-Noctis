@@ -45,13 +45,26 @@ export function useActiveSection(defaultSection: string = 'hero'): string {
       const windowHeight = window.innerHeight;
       const documentHeight = document.documentElement.scrollHeight;
 
-      if (scrollY <= 50) {
-        const firstBg = sections[0]?.dataset.bg || 'hero';
-        setActiveSection(firstBg);
-      } else if (windowHeight + scrollY >= documentHeight - 50) {
-        const lastBg = sections[sections.length - 1]?.dataset.bg;
-        if (lastBg) {
-          setActiveSection(lastBg);
+      if (scrollY <= 60) {
+        setActiveSection('hero');
+        return;
+      }
+      if (windowHeight + scrollY >= documentHeight - 60) {
+        const lastBg = sections[sections.length - 1]?.dataset.bg || 'faq';
+        setActiveSection(lastBg);
+        return;
+      }
+
+      const threshold = windowHeight * 0.38;
+      for (let i = sections.length - 1; i >= 0; i--) {
+        const sec = sections[i];
+        const rect = sec.getBoundingClientRect();
+        if (rect.top <= threshold && rect.bottom > threshold) {
+          const bg = sec.dataset.bg;
+          if (bg) {
+            setActiveSection(bg);
+            return;
+          }
         }
       }
     };

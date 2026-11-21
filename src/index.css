@@ -9,13 +9,26 @@
   --color-accent-glow: #00ff66;
   --color-text-primary: #e8f5ee;
   --color-text-muted: #8fa89a;
+  --glass-surface: rgba(12, 16, 13, 0.82);
+  --glass-surface-mobile: rgba(12, 16, 13, 0.94);
+  --glass-border: rgba(57, 255, 20, 0.22);
+  --neon-green-primary: #39FF14;
+  --neon-green-secondary: #20C960;
+  --text-primary: #F1F5F1;
+  --text-secondary: #A0AAA2;
 }
 
 /* Dedicated Background Layers - Matches Source of Truth exactly */
 .hero-background,
-.about-background,
-.events-background,
-.rules-background,
+.rules-background {
+  position: absolute;
+  inset: 0;
+  width: 100%;
+  height: 100%;
+  object-fit: cover;
+  object-position: center center;
+}
+
 .faq-background {
   position: absolute;
   inset: 0;
@@ -23,6 +36,30 @@
   height: 100%;
   object-fit: cover;
   object-position: center center;
+  filter: brightness(0.55) contrast(0.95) saturate(0.82);
+  opacity: 0.68;
+}
+
+.about-background {
+  position: absolute;
+  inset: 0;
+  width: 100%;
+  height: 100%;
+  object-fit: cover;
+  object-position: center center;
+  filter: brightness(0.60) contrast(0.95) saturate(0.85);
+  opacity: 0.70;
+}
+
+.events-background {
+  position: absolute;
+  inset: 0;
+  width: 100%;
+  height: 100%;
+  object-fit: cover;
+  object-position: center center;
+  filter: brightness(0.52) contrast(0.95) saturate(0.80);
+  opacity: 0.65;
 }
 
 html,
@@ -590,9 +627,11 @@ body {
 #events,
 #rules,
 #faq,
-#register {
+#register,
+#dimension {
   content-visibility: auto;
   contain-intrinsic-size: 1px 800px;
+  background-color: #080B09;
 }
 
 /* Reduced Motion Override */

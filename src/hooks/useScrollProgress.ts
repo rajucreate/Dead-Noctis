@@ -75,16 +75,28 @@ export function useScrollProgress(): ScrollProgressState {
   useEffect(() => {
     measureSections();
 
-    const computeActiveSection = (scrollY: number) => {
-      const viewportMid = scrollY + window.innerHeight * 0.35;
-      let currentSection = 'home';
-      const tops = sectionTopsRef.current;
+    const computeActiveSection = () => {
+      const scrollY = window.scrollY || window.pageYOffset || 0;
+      const windowHeight = window.innerHeight;
+      const docHeight = document.documentElement.scrollHeight;
 
-      for (let i = tops.length - 1; i >= 0; i--) {
-        const item = tops[i];
-        if (item.top > 0 && viewportMid >= item.top - 60) {
-          currentSection = item.id;
-          break;
+      let currentSection = 'home';
+
+      if (scrollY <= 60) {
+        currentSection = 'home';
+      } else if (windowHeight + scrollY >= docHeight - 60) {
+        currentSection = 'faq';
+      } else {
+        const threshold = windowHeight * 0.38;
+        for (let i = SECTION_IDS.length - 1; i >= 0; i--) {
+          const id = SECTION_IDS[i];
+          const el = document.getElementById(id);
+          if (!el) continue;
+          const rect = el.getBoundingClientRect();
+          if (rect.top <= threshold && rect.bottom > threshold) {
+            currentSection = id;
+            break;
+          }
         }
       }
 
@@ -102,7 +114,7 @@ export function useScrollProgress(): ScrollProgressState {
 
       scrollYRef.current = scrollY;
       targetProgressRef.current = rawProgress;
-      computeActiveSection(scrollY);
+      computeActiveSection();
     };
 
     const LERP_FACTOR = prefersReduced ? 1.0 : 0.08;

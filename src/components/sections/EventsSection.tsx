@@ -258,7 +258,7 @@ const TelemetryBeaconPod: React.FC<{
       chamfered={false}
       className={cn(
         'p-5 sm:p-6 lg:p-7 pt-6 sm:pt-7 relative overflow-hidden',
-        'bg-gradient-to-br from-[#030f08]/85 via-[#020b06]/85 to-[#020805]/90',
+        'bg-gradient-to-br from-[#030f08]/95 via-[#020b06]/95 to-[#020805]/96',
         'backdrop-blur-[14px] border border-accent-green/35 hover:border-accent-green/75',
         'shadow-[0_12px_36px_rgba(0,0,0,0.85)] hover:shadow-[0_0_30px_rgba(34,255,136,0.20)]'
       )}
@@ -460,11 +460,54 @@ export const EventsSection: React.FC<EventsSectionProps> = ({ className }) => {
       id="events"
       data-bg="events"
       className={cn(
-        'relative min-h-screen w-full flex items-center justify-start py-28 sm:py-36 md:py-40 overflow-hidden select-none bg-transparent',
+        'relative min-h-screen w-full flex items-center justify-start py-28 sm:py-36 md:py-40 overflow-hidden select-none bg-[#080B09]',
         className
       )}
       aria-label="Events Details The Dead Noctis CTF"
     >
+      {/* Events Atmospheric Backdrop Scrim & Contrast Softening Overlay */}
+      <div className="absolute inset-0 z-10 pointer-events-none overflow-hidden" aria-hidden="true">
+        {/* 1. Global ambient darkening: refined dark charcoal black/green overlay to sit behind content */}
+        <div
+          className="absolute inset-0"
+          style={{
+            background:
+              'linear-gradient(180deg, rgba(8, 11, 9, 0.72) 0%, rgba(8, 11, 9, 0.48) 30%, rgba(8, 11, 9, 0.54) 70%, rgba(8, 11, 9, 0.78) 100%)',
+          }}
+        />
+
+        {/* 2. Softened bright glow baffle: tempers the intense floating island green voxel cube / light ray glare */}
+        <div
+          className="absolute top-[8%] right-[5%] sm:right-[12%] w-[500px] md:w-[640px] h-[500px] md:h-[640px] rounded-full"
+          style={{
+            background:
+              'radial-gradient(circle at 60% 40%, rgba(8, 11, 9, 0.60) 0%, rgba(8, 11, 9, 0.32) 50%, transparent 75%)',
+          }}
+        />
+
+        {/* 3. Reading bed behind header text and body (upper left) for effortless typography readability */}
+        <div
+          className="absolute top-0 left-0 w-full sm:w-[68%] md:w-[58%] h-[60%]"
+          style={{
+            background:
+              'radial-gradient(ellipse at 25% 35%, rgba(8, 11, 9, 0.60) 0%, transparent 78%)',
+          }}
+        />
+
+        {/* 4. Reading corridor behind cards for grounded contrast */}
+        <div
+          className="absolute bottom-0 left-0 right-0 h-[65%]"
+          style={{
+            background:
+              'linear-gradient(to top, rgba(8, 11, 9, 0.62) 0%, rgba(8, 11, 9, 0.30) 70%, transparent 100%)',
+          }}
+        />
+
+        {/* 5. Top & Bottom subtle seamless edge blending */}
+        <div className="absolute top-0 left-0 right-0 h-28 bg-gradient-to-b from-[#080B09] via-[#080B09]/60 to-transparent" />
+        <div className="absolute bottom-0 left-0 right-0 h-28 bg-gradient-to-t from-[#080B09] via-[#080B09]/60 to-transparent" />
+      </div>
+
       <div className="relative z-20 w-full max-w-[1440px] mx-auto px-6 sm:px-10 md:px-16 lg:px-20 xl:px-28">
         {/* Left Column Content Container */}
         <div className="max-w-xl md:max-w-2xl lg:max-w-[720px] xl:max-w-[760px] text-left">

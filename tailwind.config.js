@@ -27,6 +27,18 @@ export default {
                     muted: '#8fa89a',
                     accent: '#22ff88',
                 },
+                glass: {
+                    surface: 'rgba(12, 16, 13, 0.82)',
+                    'surface-mobile': 'rgba(12, 16, 13, 0.94)',
+                    border: 'rgba(57, 255, 20, 0.22)',
+                },
+                neon: {
+                    green: '#39FF14',
+                    secondary: '#20C960',
+                    text: '#F1F5F1',
+                    muted: '#A0AAA2',
+                    border: 'rgba(57, 255, 20, 0.22)',
+                },
             },
             fontFamily: {
                 body: ['Rajdhani', '-apple-system', 'BlinkMacSystemFont', '"Segoe UI"', 'Roboto', 'Helvetica', 'Arial', 'sans-serif'],

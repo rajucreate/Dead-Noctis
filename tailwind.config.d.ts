@@ -27,6 +27,18 @@ declare const _default: {
                     muted: string;
                     accent: string;
                 };
+                glass: {
+                    surface: string;
+                    'surface-mobile': string;
+                    border: string;
+                };
+                neon: {
+                    green: string;
+                    secondary: string;
+                    text: string;
+                    muted: string;
+                    border: string;
+                };
             };
             fontFamily: {
                 body: [string, string, string, string, string, string, string, string];

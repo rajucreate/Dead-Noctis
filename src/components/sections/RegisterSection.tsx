@@ -32,7 +32,7 @@ export const RegisterSection: React.FC<RegisterSectionProps> = ({
       id="register"
       data-bg="register"
       className={cn(
-        'relative min-h-[85vh] w-full flex items-center justify-center py-28 md:py-36 overflow-hidden select-none bg-transparent',
+        'relative min-h-[85vh] w-full flex items-center justify-center py-28 md:py-36 overflow-hidden select-none bg-[#080B09]',
         className
       )}
     >

@@ -48,18 +48,18 @@ export const PageShell: React.FC<PageShellProps> = ({
         aria-hidden="true"
       />
     ) : (
-      <div className="absolute inset-0 bg-background-void" aria-hidden="true" />
+      <div className="absolute inset-0 bg-[#080B09]" aria-hidden="true" />
     )}
 
     {/* ── Left-to-right dark gradient overlay (readability) ───── */}
     <div
-      className="absolute inset-0 bg-[linear-gradient(100deg,rgba(2,6,4,0.97)_0%,rgba(2,6,4,0.90)_45%,rgba(2,6,4,0.65)_70%,rgba(2,6,4,0.30)_100%)]"
+      className="absolute inset-0 bg-[linear-gradient(100deg,rgba(8,11,9,0.97)_0%,rgba(8,11,9,0.90)_45%,rgba(8,11,9,0.65)_70%,rgba(8,11,9,0.30)_100%)]"
       aria-hidden="true"
     />
 
     {/* ── Radial vignette ──────────────────────────────────────── */}
     <div
-      className="absolute inset-0 bg-[radial-gradient(ellipse_at_center,transparent_40%,rgba(2,6,4,0.80)_100%)]"
+      className="absolute inset-0 bg-[radial-gradient(ellipse_at_center,transparent_40%,rgba(8,11,9,0.80)_100%)]"
       aria-hidden="true"
     />
 
