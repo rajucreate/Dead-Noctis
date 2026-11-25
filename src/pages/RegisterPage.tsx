@@ -1,22 +1,19 @@
 import React from 'react';
-import { PageShell } from '@/components/ui/PageShell';
-import { SectionLabel } from '@/components/ui/SectionLabel';
-import { register } from '@/content/siteContent';
+import { RegisterSection } from '@/components/sections/RegisterSection';
 import { usePageMeta } from '@/hooks/usePageMeta';
 
 export const RegisterPage: React.FC = () => {
   usePageMeta(
-    'REGISTER | THE DEAD NOCTIS CTF – LEVEL 1',
-    register.body
+    'ENLISTMENT TERMINAL | DEAD NOCTIS CTF – LEVEL 1',
+    'Assemble your cadre. Calibrate your exploit engines. Step into the dimensional anomaly.'
   );
 
   return (
-    <PageShell ariaLabel={register.label}>
-      <SectionLabel className="mb-4">{register.label}</SectionLabel>
-      <h1 className="text-3xl sm:text-4xl md:text-5xl font-bold tracking-tight text-white uppercase mb-6">
-        {register.heading}
-      </h1>
-    </PageShell>
+    <div className="relative min-h-screen pt-20">
+      <main id="main-content" className="relative z-10">
+        <RegisterSection />
+      </main>
+    </div>
   );
 };
 

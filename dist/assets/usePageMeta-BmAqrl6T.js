@@ -1,0 +1,1 @@
+import{r as m}from"./index-SvpTkfc6.js";function o(a,t){m.useEffect(()=>{if(document.title=a,t){let e=document.querySelector('meta[name="description"]');e||(e=document.createElement("meta"),e.name="description",document.head.appendChild(e)),e.content=t}},[a,t])}export{o as u};

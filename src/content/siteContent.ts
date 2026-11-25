@@ -32,11 +32,92 @@ export const home = {
   secondaryCta: 'LEARN MORE',
 } as const;
 
+// ── Ticker & Metrics Bar (Stitch) ──────────────────────────────────────────
+export const ticker = {
+  onlineCountdown: {
+    targetIso: '2027-01-17T09:00:00+05:30',
+    targetDateFormatted: 'JAN 17, 2027 • 09:00 AM IST',
+    roundType: 'ONLINE ROUND',
+    label: 'ONLINE ROUND INITIATION',
+    timezone: 'UTC+05:30',
+    subtitle: 'Jeopardy Virtual Qualifiers // Worldwide Access',
+  },
+  offlineCountdown: {
+    roundType: 'OFFLINE ROUND',
+    status: 'STARTS SOON',
+    label: 'OFFLINE ROUND // STARTS SOON',
+    subtext: 'KL University Physical Arena Bastion',
+    flagSymbol: '🚩',
+  },
+  countdown: {
+    days: 55,
+    hours: 12,
+    mins: 54,
+    secs: 26,
+    timezone: 'UTC+05:30',
+    label: 'ONLINE ROUND INITIATION',
+  },
+  metrics: [
+    {
+      label: 'BOUNTY VAULT',
+      value: '₹1,50,000+',
+      note: 'Cash & Hardware Awards [Subject to Final Disclosure]',
+    },
+    {
+      label: 'ENGAGEMENT FORMAT',
+      value: '24H + 36H',
+      note: 'Jeopardy Quals + Onsite Siege',
+    },
+    {
+      label: 'ENLISTED CADRES',
+      value: '500+ SQUADS',
+      note: '0-Cost Merit Protocol',
+    },
+  ],
+} as const;
+
 // ── About ──────────────────────────────────────────────────────────────────
 export const about = {
   label:   'ABOUT',
-  heading: 'A NEW DIMENSION AWAITS',
-  body:    'The Dead Noctis CTF is a beginner friendly capture the flag event by Google Developer Groups, KL University in collaboration with White Hat Hackers.',
+  code:    'SECTOR 01 // ARCHITECTURAL DOSSIER',
+  heading: '01 // THE ANOMALY — A NEW REALM OF OFFENSE & DEFENSE',
+  body:    'A deep-shader cyber conflict simulated within synthetic dimensional landscapes, co-engineered by Google Developer Groups and White Hat Hackers.',
+  spireCoordinate: 'COORDINATE // SECTOR_OBSIDIAN',
+  manifestoTitle: 'THE ORIGIN MANIFESTO',
+  manifesto: 'Standard CTFs rely on repetitive environments. Dead Noctis projects contenders into an anomalous multi-plane infrastructure where memory corruptions fracture reality and cryptographic ciphers guard dimensional bastions.',
+  spireImage: 'https://lh3.googleusercontent.com/aida-public/AB6AXuBw-gnoSSzRTQS9c_le-_OJd4-e7uPeOyiI5ns93L2anEyqW208HjdKOQkaV7Zn67UeWsQx0PjAdn0S5vyRxLDIDJGH0La2nY35BxLAKX3wrcCxiHRI7MGc5TQ7X77heKRJxw735qiFXwrXt_4HPdy0a3bFPtPPCYv9Rz8xbH1WtBsEeTpzvg9FUOFUhJcKoKOqA7_Yakz-AKoOH3H8lF_lX6blIcquMeKcZa9CSQ',
+  vectors: [
+    {
+      id: 'explore',
+      num: 'VECTOR // 01',
+      title: 'EXPLORE',
+      icon: 'explore',
+      description: 'Uncover concealed zero-day network surfaces, map isolated dimensional networks, and reconstruct fragmented state planes buried in anomalous routing topologies.',
+      phase: 'PHASE: RECONNAISSANCE',
+      subtext: 'Darknet Discovery',
+      accent: 'primary',
+    },
+    {
+      id: 'exploit',
+      num: 'VECTOR // 02',
+      title: 'EXPLOIT',
+      icon: 'pest_control',
+      description: 'Reverse engineer obfuscated voxel binaries, induce hardware fault injections, defeat custom hypervisors, and solve zero-knowledge cryptographic barriers.',
+      phase: 'PHASE: PENETRATION',
+      subtext: 'Memory Corruption',
+      accent: 'secondary',
+    },
+    {
+      id: 'conquer',
+      num: 'VECTOR // 03',
+      title: 'CONQUER',
+      icon: 'flag',
+      description: 'Ascend past virtual qualifiers into the 36-hour physical bastion arena at KL University. Fortify your fortress, intercept live enemy packets, and claim total dominance.',
+      phase: 'PHASE: ONSITE DOMINATION',
+      subtext: 'National Supremacy',
+      accent: 'tertiary',
+    },
+  ],
   highlights: [
     {
       id:       'learn',
@@ -59,7 +140,259 @@ export const about = {
   ],
 } as const;
 
-// ── Events ─────────────────────────────────────────────────────────────────
+// ── Combat Domains (Stitch) ────────────────────────────────────────────────
+export const combatDomains = {
+  label: 'CHALLENGE VECTORS // MATRIX CLASSIFICATION',
+  heading: '02 // COMBAT DOMAINS — CHOOSE YOUR PATH',
+  aggregatePotential: '12,500 FLAG POINTS',
+  domains: [
+    {
+      id: 'web',
+      icon: 'language',
+      title: 'Web Exploitation',
+      points: '100 – 500 PTS',
+      color: 'primary',
+      description: 'Infiltrate serverless runtime environments, trigger zero-trust SSRF, hijack GraphQL subscriptions, and exploit unconstrained WebAssembly micro-containers.',
+      tags: ['Serverless SSRF', 'WASM RCE', 'GraphQL AST'],
+    },
+    {
+      id: 'crypto',
+      icon: 'key',
+      title: 'Cryptography',
+      points: '150 – 500 PTS',
+      color: 'secondary',
+      description: 'Break post-quantum lattice reductions, exploit faulty nonces in Edwards-curve signatures, and construct forgery proofs in zk-SNARK circuits.',
+      tags: ['Lattice Reductions', 'ZK-Rollups', 'ECC Faults'],
+    },
+    {
+      id: 'forensics',
+      icon: 'biotech',
+      title: 'Digital Forensics',
+      points: '100 – 450 PTS',
+      color: 'tertiary',
+      description: 'Reconstruct shredded swap space dumps, carve encrypted ext4 partitions, trace covert ICMP exfiltration, and hunt stealth rootkits in live memory images.',
+      tags: ['Volatility 3', 'PCAP Extraction', 'eBPF Stealth'],
+    },
+    {
+      id: 'reverse',
+      icon: 'code_blocks',
+      title: 'Reverse Engineering',
+      points: '200 – 500 PTS',
+      color: 'primary',
+      description: 'Disassemble custom instruction sets from simulated voxel CPUs, defeat metamorphic packers, bypass hardware telemetry guards, and trace Ghidra workflows.',
+      tags: ['Custom Voxel VM', 'Anti-Debug', 'Ghidra Scripts'],
+    },
+    {
+      id: 'osint',
+      icon: 'satellite_alt',
+      title: 'OSINT & Recon',
+      points: '100 – 400 PTS',
+      color: 'secondary',
+      description: 'Track clandestine infrastructure across Tor relay nodes, extract geospatial metadata from satellite telemetries, and pivot through dark web escrow logs.',
+      tags: ['Satellite Imagery', 'Darknet Tracing', 'GEOINT Pivot'],
+    },
+    {
+      id: 'pwn',
+      icon: 'security',
+      title: 'Binary Exploitation',
+      points: '250 – 500 PTS',
+      color: 'tertiary',
+      description: 'Craft multi-stage ROP payloads, exploit Linux slab allocator heap corruption, escape locked eBPF sandboxes, and compromise live hypervisor ring-0 targets.',
+      tags: ['Kernel Heap', 'ROP / JOP Chains', 'eBPF Sandbox'],
+    },
+    {
+      id: 'ai-misc',
+      icon: 'neurology',
+      title: 'Adversarial AI & Misc Anomalies',
+      points: '100 – 500 PTS',
+      color: 'primary',
+      description: 'Inject poisoned weight vectors into local neural inference runners, bypass guardrail LLM system directives with recursive semantic jailbreaks, and solve arcane audio-visual stenography challenges.',
+      tags: ['Adversarial ML', 'Indirect Prompt Injection', 'Voxel Audio Stego'],
+      span2: true,
+    },
+  ],
+} as const;
+
+// ── Timeline / Deployment Runway (Stitch) ───────────────────────────────────
+export const deploymentRunway = {
+  label: 'OPERATIONAL ROADMAP // CAMPAIGN SEQUENCING',
+  heading: '03 // DEPLOYMENT RUNWAY — THE PATHWAY THROUGH THE ANOMALY',
+  subtitle: 'A phased trial testing pure problem solving online, escalating to full cyber siege on air-gapped battlefield hardware.',
+  arenaBannerImage: 'https://lh3.googleusercontent.com/aida-public/AB6AXuAItUogrS_yHfb-_1UTTlo17veKIIgN3jfzUQMxTsqd8AoKyXMdhFwiISjTWW6ZFAizdKYwr8AUKJH1FZX_-dtYiYchlsPeVS0hutoAbTDzJG2PqKQKhKrmGeAVhytuhwUkeZbUwu2G-nGi7dCghyb5vjPXhWRNFds7IiJixfl7BkL7K7pJD1xklrg5QQy3jeYFD1tVUqjLxmWTAP7nY873xPax6ywzzdhxOcLOsA',
+  phases: [
+    {
+      id: 'phase-01',
+      code: 'PHASE 01',
+      title: 'Recon & Cadre Enlistment',
+      date: 'JAN 15 – FEB 28, 2026',
+      venue: 'ONLINE // GLOBAL CADRE GATE',
+      description: 'Squad recruitment commences nationally. Teams assemble 2-4 operators, configure local cryptographic toolchains, and complete clearance checks.',
+      color: 'primary',
+    },
+    {
+      id: 'phase-02',
+      code: 'PHASE 02',
+      title: 'Dimensional Qualifier Gate',
+      date: 'MARCH 07 – 08, 2026',
+      venue: '24-HOUR VIRTUAL SPRINT',
+      description: '24-hour non-stop Jeopardy qualifier trial. 500+ squads battle through high-difficulty vectors. The top 50 highest-scoring cadres claim golden tickets.',
+      color: 'secondary',
+    },
+    {
+      id: 'phase-03',
+      code: 'PHASE 03 // CLIMAX',
+      title: 'The 36-Hour National Siege',
+      date: 'MARCH 27 – 29, 2026',
+      venue: 'ONSITE // KL UNIVERSITY BASTION',
+      description: "Top 50 squads converge at KL University's air-gapped physical war-room. Live red-vs-blue attack and defense, dynamic CTF scoreboard, and zero sleep.",
+      color: 'primary',
+      isClimax: true,
+    },
+    {
+      id: 'phase-04',
+      code: 'PHASE 04',
+      title: 'Convocation & Bounty Payout',
+      date: 'MARCH 29, 2026 • 18:00',
+      venue: 'MAIN AUDITORIUM CONVOCATION',
+      description: 'Exploit chain verification by WHH architects, direct cash bounty transfers, distribution of custom Obsidian hardware trophies, and GDG fellowships.',
+      color: 'tertiary',
+    },
+  ],
+} as const;
+
+// ── Bounty Vault (Stitch) ──────────────────────────────────────────────────
+export const bountyVault = {
+  label: 'FINANCIAL DISBURSEMENT // MERIT VALUATION',
+  heading: '04 // BOUNTY VAULT — NATIONAL RECOGNITION',
+  escrowNote: '₹1,50,000 ESCROW ASSURED BY KL UNIVERSITY & GDG [OFFICIAL POOL PLACEHOLDER]',
+  tiers: [
+    {
+      id: 'runner-up',
+      rank: 'RANK // 02',
+      title: 'RUNNER-UP SQUAD',
+      amount: '₹45,000',
+      color: 'secondary',
+      icon: 'military_tech',
+      description: 'Awarded to the second-highest scoring cadre across all cyber domains.',
+      perks: [
+        '₹45,000 Direct Bank Transfer',
+        'Obsidian Silver Hardened Badges',
+        'GDG Fast-Track Referral Interview',
+      ],
+      order: 'order-2 md:order-1',
+    },
+    {
+      id: 'champion',
+      rank: 'RANK // 01 • APEX',
+      badge: 'NATIONAL GRAND CHAMPION',
+      title: 'GRAND CHAMPION CADRE',
+      amount: '₹75,000',
+      color: 'primary',
+      icon: 'workspace_premium',
+      isApex: true,
+      description: 'The supreme prize package claimed by the definitive conqueror of the Dead Noctis realm.',
+      perks: [
+        '₹75,000 Direct Cash Escrow Bounty',
+        'Dead Noctis Custom Obsidian Trophy & Ring',
+        'White Hat Hackers (WHH) Security Fellowship',
+        'Direct Security Researcher Placement Pipeline',
+      ],
+      order: 'order-1 md:order-2 -mt-4',
+    },
+    {
+      id: 'bronze',
+      rank: 'RANK // 03',
+      title: 'BRONZE CADRE',
+      amount: '₹30,000',
+      color: 'tertiary',
+      icon: 'shield',
+      description: 'Honoring elite tactical endurance and consistent exploit submissions.',
+      perks: [
+        '₹30,000 Direct Cash Bounty',
+        'Voxel-Hardened Swag & Hardware Packs',
+        'National Merit Cyber Citation',
+      ],
+      order: 'order-3',
+    },
+  ],
+  bonusPools: [
+    {
+      label: 'FIRST BLOOD BONUS',
+      title: 'Fastest 0-Day Exploit',
+      pool: '₹10,000 POOL',
+      color: 'primary',
+    },
+    {
+      label: 'BEST WRITE-UP DOSSIER',
+      title: 'Vulnerability Research',
+      pool: '₹10,000 POOL',
+      color: 'secondary',
+    },
+    {
+      label: 'ALL TOP 50 FINALISTS',
+      title: 'Onsite Hardware Perks',
+      pool: 'MERIT ACCESS',
+      color: 'tertiary',
+    },
+  ],
+} as const;
+
+// ── Organizers Alliance (Stitch) ───────────────────────────────────────────
+export const organizersAlliance = {
+  label: 'STRATEGIC CONSORTIUM // BASTION ALLIANCE',
+  heading: '06 // ORGANIZERS & INFRASTRUCTURE ALLIANCE',
+  subtitle: 'Engineered and hosted under joint operational command between elite student bodies, cybersecurity chapters, and academic institutions.',
+  partners: [
+    {
+      id: 'gdg',
+      role: 'TECHNICAL & CLOUD PARTNER',
+      name: 'Google Developer Groups (GDG)',
+      description: 'Empowering developer communities across India. Providing compute infrastructure, cloud sandboxes, and post-competition merit pathways.',
+      tag: 'GLOBAL DEVELOPER NETWORK',
+      logoUrl: 'https://lh3.googleusercontent.com/aida-public/AB6AXuD1hQE8FyF1jdsIRrXrvmMDWZYaspXIEkbswSh9PtItolwOtWAmUg9kLC5mqcXKMgprYTEmntlzuQhPQe__UW2yed0mL7xcB0PB5_-oFn75o6a0odOE0-h_zn0YvuVbVE7h8dlyLFHnBjVCNn-1LalonUyIq66tZLOVJ959eb2udPYuFI0rNwG86QBrt_cPzbSNd8MkGVrjYSsBpsPdGwKMq-TIH0mmxzZYEHFdW3X37BBuyzhRZng',
+      localFallback: '/src/assets/images/logos/gdg.png',
+      accentColor: 'primary',
+    },
+    {
+      id: 'whh',
+      role: 'CHALLENGE ARCHITECTS',
+      name: 'White Hat Hackers (WHH)',
+      description: 'Premier cyber defense and offense syndicate responsible for authoring zero-day challenge vectors, hypervisors, and verification protocols.',
+      tag: 'OPERATIONAL CTF CORE',
+      logoUrl: 'https://lh3.googleusercontent.com/aida-public/AB6AXuBLp6yrTLotRtkJZEpmWP_rioIiOYDhy-rkoTciotOYmP9nuVCdagE6kgafZ9meVufAhCDz40JZ5Yz6IcqJHmo4vniKOMGMfyxidSccds_nuUVUA1kv0wriui-EaeJ_Jjs8u7YxCa9JDq6tLH-ul7EPfWPCauOoIVp8W6PSOCMLpqKvaAdHJfmVO7mvmnMpw0QV_8CV2nSbB9_2St3QTF6xNbb789V63xuItSRNt6DLqbHe43PNfDg',
+      localFallback: '/src/assets/images/logos/whh.png',
+      accentColor: 'secondary',
+    },
+    {
+      id: 'klu',
+      role: 'ARENA BASTION & HOST',
+      name: 'KL Deemed to be University',
+      description: 'Hosting the premier air-gapped physical arena, providing laboratory computing infrastructure, campus security, and cash bounty escrow.',
+      tag: 'CAMPUS VENUE PARTNER',
+      logoUrl: 'https://lh3.googleusercontent.com/aida-public/AB6AXuBJV7k3suwf4lbRgTSfgNkm34AX-3jS-FDtM3-QP5_bLPZYkupkk-iKDyZmBqHmO-hBdpBsmWKJggLg4t2MIPGqZXn1JmLKKhZHu5LT76ku5w1Soyw9Q1Wrs7gXvfkIN5_5hRdyoLBFeH_buykAaTzSeSHEINPQZFAfOrfaZH2NkVfWbXz99zWjDBcZiWvsTmlgCtQbvnSXgooL3XerHqix0n1WSYs_mBf79DuuDKNUB354-Zef3IQ',
+      localFallback: '/src/assets/images/logos/kl-university.png',
+      accentColor: 'tertiary',
+    },
+  ],
+} as const;
+
+// ── Registration Terminal (Stitch) ─────────────────────────────────────────
+export const registrationTerminal = {
+  badge: 'GATEWAY OPEN // PHASE 01 ENLISTMENT',
+  heading: 'YOUR GATEWAY TO THE UNKNOWN AWAITS',
+  subtitle: 'Assemble your cadre. Calibrate your exploit engines. Step into the dimensional anomaly before slots are sealed.',
+  protocol: 'PROTOCOL: CLEARANCE_INIT',
+  rulesAgreement: 'I acknowledge the Rules of Engagement: No infrastructure denial-of-service, zero flag sharing, and air-gapped compliance for physical qualifiers.',
+  ctaLabel: 'TRANSMIT ENLISTMENT PACKET >',
+  successAck: 'CADRE RECOGNIZED // VERIFICATION HANDSHAKE SENT TO COMMS DISPATCH.',
+  telemetry: [
+    'ENCRYPTED VIA SHA-256',
+    'INSTANT DISCORD DISPATCH',
+    'ZERO REGISTRATION CHARGES',
+  ],
+} as const;
+
+// ── Events (Legacy Bridge) ─────────────────────────────────────────────────
 export const events = {
   label:   'EVENTS',
   heading: 'CTF - LEVEL 1',
@@ -316,201 +649,64 @@ export const rules = {
 // ── FAQ ────────────────────────────────────────────────────────────────────
 export const faq = {
   label:   'FAQ',
-  heading: 'FREQUENTLY ASKED QUESTIONS',
-  subtitle: 'Essential operational details regarding eligibility, squad configuration, competition mechanics, and toolsets.',
+  heading: '05 // KNOWLEDGE BASE — FAQ',
+  tagline: 'DECRYPTION ARCHIVE // SYSTEM INTEL',
+  subtitle: 'Essential operational details regarding eligibility, competition format, challenge vectors, and scoring mechanics.',
   contact: {
     heading: 'STILL HAVE QUESTIONS?',
-    description: "Can't find what you're looking for? Reach out to our organizing team and we'll help you get the information you need.",
+    description: "Can't find what you're looking for? Reach out to our organizing team.",
     buttonLabel: 'CONTACT ORGANIZERS',
     /** Configurable destination link. Empty string opens polite in-app notice without broken redirection. */
     destinationUrl: '',
   },
-  categories: [
-    { id: 'all',          label: 'ALL INTEL',                     shortLabel: 'ALL' },
-    { id: 'general',      label: 'GENERAL INFORMATION',           shortLabel: 'GENERAL' },
-    { id: 'registration', label: 'REGISTRATION & PARTICIPATION',  shortLabel: 'REGISTRATION' },
-    { id: 'format',       label: 'COMPETITION FORMAT',            shortLabel: 'FORMAT' },
-    { id: 'technical',    label: 'TECHNICAL REQUIREMENTS',        shortLabel: 'TECHNICAL' },
-    { id: 'rules',        label: 'RULES & FAIR PLAY',             shortLabel: 'RULES' },
-    { id: 'recognition',  label: 'RESULTS & RECOGNITION',         shortLabel: 'RECOGNITION' },
-  ],
   items: [
-    // ── 1. General Information ─────────────────────────────────────────────
     {
-      id: 'what-is-ctf',
-      category: 'general',
-      categoryLabel: 'GENERAL // 01',
+      id: 'what-is-dead-noctis',
+      number: '01',
       question: 'What is Dead Noctis CTF Season 01?',
       answer:
-        'Dead Noctis CTF is a beginner-friendly Capture The Flag competition organized by Google Developer Groups (GDG) on Campus KL University in collaboration with White Hat Hackers (WHH). Operatives solve technical cybersecurity challenges across web security, cryptography, reverse engineering, digital forensics, and binary exploitation to uncover hidden flags.',
+        'Dead Noctis CTF Season 01 is a beginner-friendly Capture The Flag competition organized by Google Developer Groups (GDG) on Campus, KL University in collaboration with White Hat Hackers (WHH). The event provides an immersive, hands-on cybersecurity experience where operatives solve security challenges to locate hidden flags, learn offensive and defensive concepts, and test their skills.',
       highlight: 'Level 1: Beginner-Friendly Capture The Flag',
     },
     {
       id: 'who-can-participate',
-      category: 'general',
-      categoryLabel: 'GENERAL // 02',
-      question: 'Who is eligible to participate in this event?',
+      number: '02',
+      question: 'Who can participate, and is prior experience required?',
       answer:
-        'Any currently enrolled university or college student with a passion for cybersecurity, problem-solving, and computer science is welcome to participate. Level 1 is engineered specifically for students taking their first steps in cybersecurity competitions as well as experienced hobbyists.',
-      highlight: 'Open to All Enrolled University Students',
+        'The competition is open to all enrolled college and university students, as well as cybersecurity enthusiasts and self-taught learners. No prior professional CTF experience is required—challenges are structured to be accessible to beginners (Level 1) while offering engaging technical puzzles for experienced participants. [Specific eligibility criteria and institutional verification requirements are subject to final organizer confirmation.]',
+      highlight: 'Open to All Enrolled Students & Enthusiasts',
     },
-    {
-      id: 'is-it-free',
-      category: 'general',
-      categoryLabel: 'GENERAL // 03',
-      question: 'Is there any registration or participation fee?',
-      answer:
-        'Zero entry fee. Dead Noctis CTF Level 1 is 100% free of cost for all registered university operatives and cybersecurity participants.',
-      highlight: '100% Free of Cost',
-    },
-
-    // ── 2. Registration & Participation ────────────────────────────────────
     {
       id: 'how-to-register',
-      category: 'registration',
-      categoryLabel: 'REGISTRATION // 01',
-      question: 'How and when can I register for the event?',
+      number: '03',
+      question: 'How can I register for the competition?',
       answer:
-        'Registration will open online through the official Dead Noctis event portal. Official registration deadlines, confirmation timelines, and access links will be announced shortly across all GDG and WHH broadcast channels.',
+        'Registration will be conducted online through the official Dead Noctis event registration portal. Operatives will need to submit basic academic and contact information to secure clearance. [The official registration portal link and opening date will be announced across official GDG and WHH communication channels.]',
       highlight: 'Online Registration via Official Portal [Opening Soon]',
-      reviewNote: 'Registration dates and portal URL will be published upon organizer finalization.',
     },
     {
-      id: 'team-size',
-      category: 'registration',
-      categoryLabel: 'REGISTRATION // 02',
-      question: 'Can I participate solo or do I need a squad?',
+      id: 'challenge-types',
+      number: '04',
+      question: 'What types of cybersecurity challenges will be included?',
       answer:
-        'Individual (Solo) participation is supported by default. Squad-based participation guidelines and final team capacity limits [e.g. up to 4 operatives per team] are currently under organizer review and will be confirmed in the official player handbook.',
-      highlight: 'Solo Supported; Squad Limits [Pending Review]',
-      reviewNote: 'Confirm final squad size limit (e.g. 1-4 members) for Level 1.',
+        'The competition will feature foundational and intermediate challenge domains, including Web Exploitation, Cryptography, Digital Forensics, Reverse Engineering, OSINT (Open Source Intelligence), Binary Exploitation (PWN), and Adversarial AI / Miscellaneous security anomalies. [Final challenge distribution and difficulty tiers are subject to confirmation before kickoff.]',
+      highlight: 'Web, Crypto, Forensics, Rev, OSINT, PWN & AI',
     },
     {
-      id: 'required-registration-info',
-      category: 'registration',
-      categoryLabel: 'REGISTRATION // 03',
-      question: 'What details are required to complete registration?',
+      id: 'format-and-scoring',
+      number: '05',
+      question: 'Is the competition individual or team-based, and how does scoring work?',
       answer:
-        'Operatives will need a valid student or personal email address, full legal name, college/university affiliation, and team handle (if competing as a squad). Accurate information is required to ensure certificate issuance and prize eligibility.',
-      highlight: 'Valid Email & University Affiliation Required',
-    },
-
-    // ── 3. Competition Format ──────────────────────────────────────────────
-    {
-      id: 'challenge-categories',
-      category: 'format',
-      categoryLabel: 'FORMAT // 01',
-      question: 'What challenge categories will be featured?',
-      answer:
-        'Challenges will cover core cybersecurity domains: Web Exploitation, Cryptography, Reverse Engineering, Digital Forensics, Binary Exploitation (Pwn), and OSINT / Miscellaneous. Challenges range from guided beginner levels to intermediate puzzles.',
-      highlight: 'Web, Crypto, Rev, Forensics, Pwn, OSINT',
+        'Participants may compete individually or in teams. Each challenge rewards points upon successfully submitting the correct flag into the scoring engine. Solves are reflected on a live real-time leaderboard, with rankings determined by cumulative points and submission timestamps. [Final squad size limits and dynamic scoring multipliers will be specified in the official player handbook.]',
+      highlight: 'Solo & Team Participation with Real-Time Leaderboard',
     },
     {
-      id: 'event-schedule-duration',
-      category: 'format',
-      categoryLabel: 'FORMAT // 02',
-      question: 'What is the competition schedule and duration?',
+      id: 'date-venue-prizes',
+      number: '06',
+      question: 'When and where will the competition take place, and are there any prizes?',
       answer:
-        'The competition will run as a time-bounded sprint. The official start date, launch hour, and active solve window [e.g. 24–48 hours] will be published in the event schedule section before kickoff. Late submissions will not be accepted.',
-      highlight: 'Exact Duration & Kickoff [Pending Official Schedule]',
-      reviewNote: 'Specific date and start time to be confirmed by organizing committee.',
-    },
-    {
-      id: 'flag-format-standard',
-      category: 'format',
-      categoryLabel: 'FORMAT // 03',
-      question: 'What is the standard flag format for submissions?',
-      answer:
-        'Standard flags follow the format DNCTF{...} unless an individual challenge explicitly designates a custom submission string. All flags are case-sensitive and must be submitted into the designated engine input without trailing spaces.',
-      highlight: 'Standard format: DNCTF{...}',
-    },
-
-    // ── 4. Technical Requirements ──────────────────────────────────────────
-    {
-      id: 'hardware-tools',
-      category: 'technical',
-      categoryLabel: 'TECHNICAL // 01',
-      question: 'What hardware and software tools are needed?',
-      answer:
-        'All you need is a laptop or desktop with reliable internet connectivity and a modern web browser. A Unix-like environment (Linux, macOS, or WSL2 on Windows) is strongly recommended for running security tools and scripts.',
-      highlight: 'Laptop + Web Browser (Linux / WSL2 Recommended)',
-    },
-    {
-      id: 'recommended-software',
-      category: 'technical',
-      categoryLabel: 'TECHNICAL // 02',
-      question: 'Which software utilities should I install beforehand?',
-      answer:
-        'Helpful free utilities include Python 3, Wireshark, Burp Suite Community Edition, Ghidra or IDA Free, netcat, and online tools like CyberChef. Most beginner challenges can be solved with lightweight open-source software.',
-      highlight: 'Free Tools: Python 3, Wireshark, Burp Suite, CyberChef',
-    },
-    {
-      id: 'platform-access',
-      category: 'technical',
-      categoryLabel: 'TECHNICAL // 03',
-      question: 'How do operatives access challenges and instances?',
-      answer:
-        'Challenge instructions, target connection endpoints, downloadable attachments, and dynamic container instances will be accessible directly through the web-based Dead Noctis CTF scoring platform.',
-      highlight: 'Web-Based Scoring & Container Instances',
-    },
-
-    // ── 5. Rules & Fair Play ───────────────────────────────────────────────
-    {
-      id: 'flag-sharing-rules',
-      category: 'rules',
-      categoryLabel: 'RULES // 01',
-      question: 'Can I share flags, solutions, or write-ups during the event?',
-      answer:
-        'Strictly prohibited. Sharing flags, leaking exploit scripts, trading hints, or publishing write-ups before the competition concludes constitutes cheating and results in immediate disqualification and removal from the scoreboard.',
-      highlight: 'Zero-Tolerance Policy on Flag Sharing',
-    },
-    {
-      id: 'infrastructure-attacks',
-      category: 'rules',
-      categoryLabel: 'RULES // 02',
-      question: 'Are attacks against competition infrastructure permitted?',
-      answer:
-        'No. Probing, attacking, or exploiting vulnerabilities in the CTF scoring platform, web servers, databases, or campus networks is strictly forbidden. Attacks must remain strictly within assigned challenge target containers.',
-      highlight: 'Only Target Explicit Challenge Scope',
-    },
-    {
-      id: 'dos-brute-force',
-      category: 'rules',
-      categoryLabel: 'RULES // 03',
-      question: 'Are brute-force and Denial-of-Service (DoS) attacks allowed?',
-      answer:
-        'Denial-of-Service (DoS/DDoS) attacks, automated rapid ping sweeps, and volumetric network flooding are strictly prohibited. Automated rate-limiting is actively enforced on all challenge endpoints.',
-      highlight: 'No DoS, DDoS, or Volumetric Brute-Forcing',
-    },
-
-    // ── 6. Results & Recognition ───────────────────────────────────────────
-    {
-      id: 'scoring-mechanics',
-      category: 'recognition',
-      categoryLabel: 'RECOGNITION // 01',
-      question: 'How does the scoring and live leaderboard work?',
-      answer:
-        'Points are awarded upon successful flag submission. Dynamic scoring scales challenge point values according to the total number of solves. Ties on the live leaderboard are broken dynamically by the earlier timestamp of the final solve.',
-      highlight: 'Dynamic Scoring with Timestamp Tie-Breaking',
-    },
-    {
-      id: 'certificates-policy',
-      category: 'recognition',
-      categoryLabel: 'RECOGNITION // 02',
-      question: 'Will participants receive official certificates?',
-      answer:
-        'Yes. All registered participants who actively solve and submit at least one valid challenge flag will receive an official digital Certificate of Participation issued jointly by Google Developer Groups KL University and White Hat Hackers.',
-      highlight: 'Official Digital GDG & WHH Certificates',
-    },
-    {
-      id: 'prizes-and-awards',
-      category: 'recognition',
-      categoryLabel: 'RECOGNITION // 03',
-      question: 'What awards and prizes are offered for top scoreboard finishers?',
-      answer:
-        'Top-ranking operatives and squads will receive achievement awards, winner certificates, and exclusive event merchandise. The detailed prize distribution and reward tiers are [Pending Final Organizer Announcement].',
-      highlight: 'Achievement Honors & Event Swag [Tiers Pending Announcement]',
-      reviewNote: 'Prize pool and sponsor reward tiers subject to organizer confirmation.',
+        'Dead Noctis CTF Season 01 features virtual online qualifiers followed by an onsite finale hosted at the KL University campus. Top-performing operatives and squads will receive cash rewards, official certificates, and exclusive event merchandise. [Confirmed competition dates, complete timeline, and final prize pool disbursements will be published upon official announcement.]',
+      highlight: 'Virtual Qualifiers + Onsite Finale at KL University',
     },
   ],
 } as const;
@@ -537,4 +733,32 @@ export const notFound = {
   heading:    'LOST IN THE DIMENSION',
   body:       "The page you are looking for doesn't exist (or it's in another dimension).",
   buttonLabel: 'GO BACK HOME',
+} as const;
+
+// ── Footer (Stitch) ────────────────────────────────────────────────────────
+export const footer = {
+  title: 'DEAD NOCTIS',
+  tagline: 'ENTER THE DIMENSION',
+  description: 'A premier deep-shader collegiate cybersecurity offensive defense tournament engineered for anomalous operators and high-order vulnerability research.',
+  secStatus: 'SEC_STATUS: OPERATIONAL',
+  coordinates: 'LAT.16.4419 // LONG.80.6226',
+  directory: [
+    { label: 'Home Core', href: '#home' },
+    { label: 'Mission Architecture', href: '#about' },
+    { label: 'Challenge Vectors', href: '#challenges' },
+    { label: 'Operational Timeline', href: '#timeline' },
+    { label: 'Bounty Spectrum', href: '#prizes' },
+    { label: 'Rules of Engagement', href: '#rules' },
+    { label: 'Decryption FAQ', href: '#faq' },
+  ],
+  channels: [
+    { label: 'Discord [HQ_COMMS]', href: '#' },
+    { label: 'GitHub [PAYLOADS]', href: '#' },
+    { label: 'X [DISPATCHES]', href: '#' },
+  ],
+  consortium: 'Co-organized and powered by Google Developer Groups (GDG) and White Hat Hackers (WHH) alongside KL University.',
+  copyright: '© 2026 DEAD NOCTIS CTF. ALL RIGHTS RESERVED.',
+  disclaimer: 'SECURITY DISCLOSURE',
+  rulesLabel: 'RULES OF ENGAGEMENT',
+  campusTag: 'KLU // CYBERSPACE LABS',
 } as const;

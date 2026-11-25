@@ -1,10 +1,13 @@
 import React, { useMemo } from 'react';
 import { useNavigate } from 'react-router-dom';
 import { HeroSection } from '@/components/hero/HeroSection';
+import { TickerBar } from '@/components/sections/TickerBar';
 import { AboutSection } from '@/components/sections/AboutSection';
 import { EventsSection } from '@/components/sections/EventsSection';
 import { RulesSection } from '@/components/sections/RulesSection';
 import { FaqSection } from '@/components/sections/FaqSection';
+import { OrganizersSection } from '@/components/sections/OrganizersSection';
+import { RegisterSection } from '@/components/sections/RegisterSection';
 import { BackgroundStack } from '@/components/layout/BackgroundStack';
 import { AmbientCanvas } from '@/components/ui/AmbientCanvas';
 import { useActiveSection } from '@/hooks/useActiveSection';
@@ -17,7 +20,7 @@ import { siteConfig } from '@/config/site';
 /**
  * HomePage:
  * Renders the fixed BackgroundStack for smooth cross-fading scroll transitions,
- * the subtle ambient floating cyber particles, and the foreground section content flow.
+ * the subtle ambient floating cyber particles, and the full Stitch redesigned section flow.
  */
 export const HomePage: React.FC = () => {
   usePageMeta(
@@ -32,9 +35,14 @@ export const HomePage: React.FC = () => {
   const navigate = useNavigate();
 
   const handleRegisterClick = () => {
-    triggerTransition(() => {
-      navigate('/register');
-    });
+    const el = document.getElementById('registration');
+    if (el) {
+      el.scrollIntoView({ behavior: 'smooth' });
+    } else {
+      triggerTransition(() => {
+        navigate('/register');
+      });
+    }
   };
 
   const handleLearnMoreClick = () => {
@@ -54,10 +62,13 @@ export const HomePage: React.FC = () => {
           onRegisterClick={handleRegisterClick}
           onLearnMoreClick={handleLearnMoreClick}
         />
+        <TickerBar />
         <AboutSection />
         <EventsSection />
         <RulesSection />
         <FaqSection />
+        <OrganizersSection />
+        <RegisterSection />
       </main>
     ),
     []

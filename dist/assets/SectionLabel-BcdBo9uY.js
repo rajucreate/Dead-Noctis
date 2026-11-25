@@ -1,1 +1,0 @@
-import{j as e,c as t}from"./index-CP40QmNr.js";const r=({children:s,className:n,as:a="p"})=>e.jsxs(a,{className:t("inline-flex items-center gap-2 text-xs font-semibold tracking-[0.3em] text-accent-green uppercase select-none",n),children:[e.jsx("span",{className:"w-1.5 h-1.5 bg-accent-green shadow-neon-sm flex-shrink-0","aria-hidden":"true"}),s]});export{r as S};
